@@ -9,4 +9,9 @@
     <string name="title_activity_crops">Crops</string>
     <string name="title_activity_farmer_crops">farmerCrops</string>
     <string name="title_activity_add_crop">AddCrop</string>
+    <string name="CropType">Type</string>
+    <string name="EstimatesHeader">Estimates</string>
+    <string name="YieldDate">Yield Date</string>
+    <string name="EstimateInvestment">Investment</string>
+    <string name="Yield">Yield</string>
 </resources>

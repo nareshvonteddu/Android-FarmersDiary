@@ -3,6 +3,7 @@ package vnr.farmersdiary;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,18 @@ public class farmerCrops extends ActionBarActivity {
         //MobileServiceDataLayer.GetCrops(this);
         Intent I = new Intent(this, AddCrop.class);
         startActivity(I);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
+            moveTaskToBack(true);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
