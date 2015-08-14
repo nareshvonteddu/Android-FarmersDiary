@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FarmersDiary</string>
+    <string name="serviceURL">http://farmersdiaryservice.cloudapp.net/FarmersDiaryService.svc/</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hintName">Name</string>
+    <string name="hintPhone">Phone</string>
+    <string name="done">Done</string>
+    <string name="title_activity_crops">Crops</string>
+    <string name="title_activity_farmer_crops">farmerCrops</string>
+    <string name="title_activity_add_crop">AddCrop</string>
+</resources>

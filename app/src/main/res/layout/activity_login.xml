@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:paddingLeft="10dp"
+        android:paddingTop="100dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="100dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/NameText"
+            android:hint="@string/hintName" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/PhoneNbrText"
+            android:hint="@string/hintPhone" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/done"
+            android:id="@+id/DoneButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:onClick="onDoneClick"
+            android:clickable="true"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+</RelativeLayout>
