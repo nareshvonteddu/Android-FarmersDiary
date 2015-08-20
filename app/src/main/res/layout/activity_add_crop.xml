@@ -20,12 +20,33 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:layout_below="@id/cropSpinner">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/AcresLable"
+            android:layout_margin="5dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/acresEditText"
+            android:layout_marginBottom="10dp" />
+    </LinearLayout>
+
     <GridLayout
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:rowCount="5"
+        android:rowCount="16"
         android:columnCount="3"
-        android:layout_below="@+id/cropSpinner"
+        android:layout_below="@+id/linearLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
@@ -43,13 +64,14 @@
 
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/editText"
             android:layout_row="1"
-            android:layout_column="1" />
+            android:layout_column="1"
+            android:layout_columnSpan="2" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,14 +101,21 @@
             android:layout_column="0"
             android:layout_margin="10dp" />
 
-        <EditText
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/yieldDate"
             android:layout_row="2"
-            android:layout_column="1" />
+            android:layout_column="1"
+            android:onClick="onYieldDateClick"
+            android:enabled="true"
+            android:editable="false"
+            android:background="#fffcbf"
+            android:textAlignment="center"
+            android:padding="2dp"
+            android:layout_gravity="center_vertical" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,14 +126,35 @@
             android:layout_column="0"
             android:layout_margin="10dp" />
 
-        <EditText
+        <LinearLayout android:layout_column="1" android:layout_row="3"
+            android:layout_width="fill_parent" android:layout_columnSpan="2">
+
+            <EditText
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="10"
+                android:id="@+id/yieldEditText"
+                android:layout_row="3"
+                android:layout_column="1" />
+
+            <Spinner
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:id="@+id/unitsSpinner"
+                android:layout_alignParentStart="false"
+                android:layout_alignParentRight="true" />
+        </LinearLayout>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/editText3"
-            android:layout_row="3"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/convertionTextView"
+            android:layout_row="4"
             android:layout_column="1" />
+
 
     </GridLayout>
 

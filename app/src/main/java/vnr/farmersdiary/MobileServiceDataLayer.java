@@ -2,6 +2,7 @@ package vnr.farmersdiary;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.view.View;
@@ -56,7 +57,12 @@ public final class MobileServiceDataLayer
                         editor.commit();
 
                         String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
-                        Logger.getAnonymousLogger().log(Level.ALL,phoneNbr);
+
+
+                        Intent I = new Intent(context, farmerCrops.class);
+                        context.startActivity(I);
+
+                        //Logger.getAnonymousLogger().log(Level.ALL,phoneNbr);
 
                     } else {
                         // Insert failed
@@ -68,14 +74,16 @@ public final class MobileServiceDataLayer
 
     public static void GetCrops(final Context context)
     {
+
+        ((AddCrop)context).progressBar.setVisibility(View.VISIBLE);
         new AsyncTask<Void, Void, Void>()
         {
+
             @Override
             protected Void doInBackground(Void... params)
             {
                 try
                 {
-                    ((AddCrop)context).progressBar.setVisibility(View.VISIBLE);
                     MobileServiceTable<CropRegional> table =  mClient.getTable(CropRegional.class);
                     final MobileServiceList<CropRegional> result = table.where().field("Language_Id").eq(1)
                             .select("Crop_Id", "Language_Id", "Value").execute().get();

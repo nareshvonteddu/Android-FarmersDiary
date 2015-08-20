@@ -35,10 +35,10 @@ public class FarmerCropItemAdapter extends ArrayAdapter<CropRegional>
         if(farmerCrop != null)
         {
             TextView nameTextView = (TextView)v.findViewById(R.id.tvCropName);
-            TextView idTextView = (TextView)v.findViewById(R.id.tvCropId);
+            //TextView idTextView = (TextView)v.findViewById(R.id.tvCropId);
 
             if(nameTextView != null) nameTextView.setText(farmerCrop.Value);
-            if(idTextView != null) idTextView.setText(Integer.toString(farmerCrop.Crop_Id));
+            //if(idTextView != null) idTextView.setText(Integer.toString(farmerCrop.Crop_Id));
         }
 
         return v;

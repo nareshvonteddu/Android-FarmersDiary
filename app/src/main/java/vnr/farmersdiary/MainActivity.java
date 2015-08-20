@@ -46,7 +46,8 @@ public class MainActivity extends ActionBarActivity {
             Intent I = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(I);
         }
-        else {
+        else
+        {
             Intent I = new Intent(MainActivity.this, farmerCrops.class);
             startActivity(I);
         }
