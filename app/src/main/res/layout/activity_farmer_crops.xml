@@ -1,14 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="vnr.farmersdiary.farmerCrops"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#ffffff">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/material_deep_teal_200">
+        android:background="@color/material_deep_teal_200"
+        android:id="@+id/buttonRelativeLayout">
 
         <Button
             android:layout_width="50dp"
@@ -27,9 +29,21 @@
             android:textAlignment="center" />
     </RelativeLayout>
 
+    <ProgressBar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/farmerCropsProgres"
+        android:layout_centerInParent="true" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/farmerCropListView" />
+        android:id="@+id/farmerCropListView"
+        android:layout_below="@id/buttonRelativeLayout"
+        android:layout_margin="10dp"
+        android:dividerHeight="10sp"
+        android:drawSelectorOnTop="false"
+        android:divider="@android:color/transparent"
+        android:background="#ffffff"/>
 
-</LinearLayout>
+</RelativeLayout>

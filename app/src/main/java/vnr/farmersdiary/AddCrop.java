@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -19,8 +21,13 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,12 +36,19 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
 
     public Spinner cropSpinner;
     public ArrayList<CropRegional> CropsRegional;
-    public ProgressBar progressBar;
     Spinner unitsSpiner;
     TextView converterTextView;
     EditText yieldEditText;
     TextView yieldDate;
     EditText acresEditText;
+    TextView sowDate;
+    public ProgressBar progressBar;
+    public FarmerCrop farmerCrop;
+    public EditText investment;
+    private int converterPosition;
+
+
+    private CropRegional selectedCrop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +56,17 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         setContentView(R.layout.activity_add_crop);
 
         unitsSpiner = (Spinner) findViewById(R.id.unitsSpinner);
-        progressBar = (ProgressBar) findViewById(R.id.addCropProgress);
         cropSpinner = (Spinner) findViewById(R.id.cropSpinner);
         converterTextView = (TextView) findViewById(R.id.convertionTextView);
         yieldEditText = (EditText) findViewById(R.id.yieldEditText);
         yieldDate = (TextView) findViewById(R.id.yieldDate);
         acresEditText = (EditText) findViewById(R.id.acresEditText);
+        sowDate = (TextView) findViewById(R.id.sowDate);
+        progressBar = (ProgressBar) findViewById(R.id.addCropProgres);
+        investment = (EditText) findViewById(R.id.investment);
 
+        progressBar.setVisibility(View.GONE);
+        farmerCrop = new FarmerCrop();
         acresEditText.setText("1");
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.units_array, android.R.layout.simple_spinner_item);
@@ -58,6 +76,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                converterPosition = position;
                 String converterText = "";
                 switch (position)
                 {
@@ -82,7 +101,8 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
 
         cropSpinner.setOnItemSelectedListener(this);
         CropsRegional = new ArrayList<CropRegional>();
-        MobileServiceDataLayer.GetCrops(this);
+        //MobileServiceDataLayer.GetCrops(this);
+        cropSpinner.setAdapter(new AddCropSpinnerItemAdapter(this, android.R.layout.simple_dropdown_item_1line, Cache.CropRegionalCache));
 
     }
 
@@ -98,6 +118,18 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
+    public void onSowDateClick(View view)
+    {
+        DialogFragment newFragment = new DatePickerFragment() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day)
+            {
+                sowDate.setText(day+"/"+month+"/"+year);
+            }
+        };
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
@@ -107,6 +139,44 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void onDoneClick(View view)
+    {
+
+        farmerCrop.Crop_Id = selectedCrop.Crop_Id;
+        farmerCrop.Acres = Double.valueOf(acresEditText.getText().toString());
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            farmerCrop.CropDate = dateFormat.parse(sowDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        farmerCrop.EstimateExpense = Double.valueOf(investment.getText().toString());
+        try {
+            farmerCrop.EstimateYieldDate = dateFormat.parse(yieldDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString());
+        SharedPreferences loginPreferences = getSharedPreferences(SPFStrings.SPFNAME.getValue(),
+                Context.MODE_PRIVATE);
+        String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(),"");
+        farmerCrop.FarmerPhoneNbr = phoneNbr;
+        switch (converterPosition)
+        {
+            case 0:
+                farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 1;
+                break;
+            case 1:
+                farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 100;
+                break;
+            case 2:
+                farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 1000;
+                break;
+        }
+
+        MobileServiceDataLayer.CreateFarmerCrop(farmerCrop, this);
     }
 
 //    @Override
@@ -134,7 +204,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
-         Object item =   parent.getSelectedItem();
+         selectedCrop = (CropRegional) parent.getSelectedItem();
     }
 
     @Override

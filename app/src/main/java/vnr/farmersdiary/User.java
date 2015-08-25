@@ -5,7 +5,7 @@ package vnr.farmersdiary;
  */
 public class User
 {
-    public String Id;
+    public String id;
     public String Name;
     public String PhoneNbr;
 }

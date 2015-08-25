@@ -7,22 +7,33 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class farmerCrops extends ActionBarActivity {
 
     public ListView farmerCropListView;
+    public ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_crops);
+        progressBar = (ProgressBar) findViewById(R.id.farmerCropsProgres);
         farmerCropListView = (ListView) findViewById(R.id.farmerCropListView);
+
+        progressBar.setVisibility(View.GONE);
+
+        if(Cache.CropRegionalCache.isEmpty()) {
+            MobileServiceDataLayer.GetCrops(this);
+        }
+        else if(!Cache.FarmerCropUIArrayListCache.isEmpty())
+        {
+            this.farmerCropListView.setAdapter(new FarmerCropItemAdapter(this,android.R.layout.simple_list_item_1,Cache.FarmerCropUIArrayListCache));
+        }
     }
 
     public void onAddCropClick(View view)

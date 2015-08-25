@@ -15,6 +15,7 @@
     <string name="EstimateInvestment">Investment</string>
     <string name="Yield">Yield</string>
     <string name="AcresLable">Acres</string>
+    <string name="SowingDate">Planted Date</string>
     <string-array name="units_array">
         <item>Kilo</item>
         <item>Quintal</item>

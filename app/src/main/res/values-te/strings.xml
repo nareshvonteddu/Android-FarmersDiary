@@ -9,6 +9,7 @@
     <string name="EstimateInvestment">పెట్టుబడి</string>
     <string name="Yield">దిగుబడి</string>
     <string name="AcresLable">ఎకరాలు</string>
+    <string name="SowingDate">నాటిన తేదీ</string>
     <string-array name="units_array">
         <item>కిలో</item>
         <item>క్వింటాల్</item>
