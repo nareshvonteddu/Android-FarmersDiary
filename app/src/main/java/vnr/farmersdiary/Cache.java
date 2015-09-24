@@ -13,4 +13,5 @@ public final class Cache
     public static ArrayList<CropRegional> CropRegionalCache = new ArrayList<CropRegional>();
     public static ArrayList<FarmerCrop> FarmerCropsCache = new ArrayList<FarmerCrop>();
     public static ArrayList<FarmerCropUI> FarmerCropUIArrayListCache = new ArrayList<FarmerCropUI>();
+    public static ArrayList<Investment> InvestmentsCache = new ArrayList<Investment>();
 }

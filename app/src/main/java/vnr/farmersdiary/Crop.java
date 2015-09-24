@@ -5,6 +5,7 @@ package vnr.farmersdiary;
  */
 public class Crop
 {
-    int Crop_Id;
-    String Name;
+    public String Id;
+    public int Crop_Id;
+    public String Value;
 }

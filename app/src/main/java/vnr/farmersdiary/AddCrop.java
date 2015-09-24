@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,10 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class AddCrop extends Activity implements AdapterView.OnItemSelectedListener {
@@ -46,6 +38,9 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
     public FarmerCrop farmerCrop;
     public EditText investment;
     private int converterPosition;
+    EditText estimatePriceEditText;
+    TextView estimatePriceUnitTextView;
+    EditText estimateIncomeEditText;
 
 
     private CropRegional selectedCrop;
@@ -64,22 +59,33 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         sowDate = (TextView) findViewById(R.id.sowDate);
         progressBar = (ProgressBar) findViewById(R.id.addCropProgres);
         investment = (EditText) findViewById(R.id.investment);
+        estimatePriceEditText = (EditText) findViewById(R.id.estimatePriceEditText);
+        estimatePriceUnitTextView = (TextView) findViewById(R.id.estimatePriceUnitsTextView);
+        estimateIncomeEditText = (EditText) findViewById(R.id.estimateIncomeEditText);
 
         progressBar.setVisibility(View.GONE);
         farmerCrop = new FarmerCrop();
         acresEditText.setText("1");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Calendar c = Calendar.getInstance();
+            String formattedDate = dateFormat.format(c.getTime());
+            sowDate.setText(formattedDate);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.units_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitsSpiner.setAdapter(adapter);
         unitsSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 converterPosition = position;
                 String converterText = "";
-                switch (position)
-                {
+                switch (position) {
                     case 0:
                         converterText = " = X 1kg";
                         break;
@@ -91,11 +97,34 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
                         break;
                 }
                 converterTextView.setText(converterText);
+                estimatePriceUnitTextView.setText(unitsSpiner.getSelectedItem().toString());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        estimatePriceUnitTextView.setText(unitsSpiner.getSelectedItem().toString());
+        estimatePriceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                {
+                    try
+                    {
+                        double yield = Double.valueOf(yieldEditText.getText().toString());
+                        double price = Double.valueOf(estimatePriceEditText.getText().toString());
+                        String income = String.valueOf(yield * price);
+                        estimateIncomeEditText.setText(income);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        estimateIncomeEditText.setText("0.0");
+                    }
+                }
             }
         });
 
@@ -152,17 +181,19 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        farmerCrop.EstimateExpense = Double.valueOf(investment.getText().toString());
+        farmerCrop.EstimateInvestment = Double.valueOf(investment.getText().toString());
+
         try {
             farmerCrop.EstimateYieldDate = dateFormat.parse(yieldDate.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString());
+
         SharedPreferences loginPreferences = getSharedPreferences(SPFStrings.SPFNAME.getValue(),
                 Context.MODE_PRIVATE);
         String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(),"");
         farmerCrop.FarmerPhoneNbr = phoneNbr;
+        farmerCrop.UnitResourceIndex = converterPosition;
         switch (converterPosition)
         {
             case 0:
@@ -175,6 +206,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
                 farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 1000;
                 break;
         }
+        farmerCrop.EstimatePrice = Double.valueOf(estimatePriceEditText.getText().toString());
 
         MobileServiceDataLayer.CreateFarmerCrop(farmerCrop, this);
     }

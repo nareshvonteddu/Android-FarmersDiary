@@ -61,10 +61,15 @@ public class LoginActivity extends ActionBarActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
+        SharedPreferences loginPreferences = this.getSharedPreferences(SPFStrings.SPFNAME.getValue(),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = loginPreferences.edit();
         switch (id)
         {
             case R.id.action_telugu:
                 setLocale("te");
+                editor.putString(SPFStrings.LANGUAGE.getValue(), "te");
+                editor.commit();
                 return true;
         }
         return super.onOptionsItemSelected(item);

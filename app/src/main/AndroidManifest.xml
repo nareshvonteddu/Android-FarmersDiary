@@ -24,16 +24,24 @@
             android:label="loginscreen" >
         </activity>
         <activity
-            android:name=".Crops"
-            android:label="@string/title_activity_crops" >
-        </activity>
-        <activity
             android:name=".farmerCrops"
             android:label="@string/title_activity_farmer_crops" >
         </activity>
         <activity
             android:name=".AddCrop"
             android:label="@string/title_activity_add_crop" >
+        </activity>
+        <activity
+            android:name=".CropDetail"
+            android:label="@string/title_activity_crop_detail" >
+        </activity>
+        <activity
+            android:name=".InvestmentsDetail"
+            android:label="@string/title_activity_investments" >
+        </activity>
+        <activity
+            android:name=".AddEditInvestment"
+            android:label="@string/title_activity_add_edit_investment" >
         </activity>
     </application>
 

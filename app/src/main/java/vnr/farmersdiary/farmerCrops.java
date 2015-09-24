@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -34,6 +35,17 @@ public class farmerCrops extends ActionBarActivity {
         {
             this.farmerCropListView.setAdapter(new FarmerCropItemAdapter(this,android.R.layout.simple_list_item_1,Cache.FarmerCropUIArrayListCache));
         }
+
+        farmerCropListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Intent ICropDetailActivity = new Intent(parent.getContext(),CropDetail.class);
+                FarmerCropUI farmerCropUI = (FarmerCropUI) farmerCropListView.getItemAtPosition(position);
+                ICropDetailActivity.putExtra("farmerCropId",farmerCropUI.id);
+                startActivity(ICropDetailActivity);
+            }
+        });
     }
 
     public void onAddCropClick(View view)

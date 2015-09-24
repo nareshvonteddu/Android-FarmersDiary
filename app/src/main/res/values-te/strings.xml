@@ -6,7 +6,7 @@
     <string name="CropType">రకం</string>
     <string name="EstimatesHeader">అంచనాలు</string>
     <string name="YieldDate">దిగుబడి తేదీ</string>
-    <string name="EstimateInvestment">పెట్టుబడి</string>
+    <string name="Investment">పెట్టుబడి</string>
     <string name="Yield">దిగుబడి</string>
     <string name="AcresLable">ఎకరాలు</string>
     <string name="SowingDate">నాటిన తేదీ</string>
@@ -15,4 +15,14 @@
         <item>క్వింటాల్</item>
         <item>టన్ను</item>
     </string-array>
+    <string name="investment_type_label">పెట్టుబడి రకం</string>
+    <string-array name="investment_array">
+        <item>మానవ వనరుల</item>
+        <item>పురుగుమందులు</item>
+        <item>ఎరువులు</item>
+        <item>యంత్రాలు</item>
+        <item>ఇతర</item>
+    </string-array>
+    <string name="amount_label">మొత్తం</string>
+    <string name="price_label">ధర</string>
 </resources>

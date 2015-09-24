@@ -12,7 +12,7 @@
     <string name="CropType">Type</string>
     <string name="EstimatesHeader">Estimates</string>
     <string name="YieldDate">Yield Date</string>
-    <string name="EstimateInvestment">Investment</string>
+    <string name="Investment">Investment</string>
     <string name="Yield">Yield</string>
     <string name="AcresLable">Acres</string>
     <string name="SowingDate">Planted Date</string>
@@ -21,4 +21,19 @@
         <item>Quintal</item>
         <item>Ton</item>
     </string-array>
+    <string name="title_activity_crop_detail">CropDetail</string>
+    <string name="title_activity_investments">Investments</string>
+    <string name="title_activity_investmentlistitem">investmentlistitem</string>
+    <string name="title_activity_add_edit_investment">AddEditInvestment</string>
+    <string name="investment_type_label">Investment Type</string>
+    <string-array name="investment_array">
+        <item>Human Resource</item>
+        <item>Pesticides</item>
+        <item>Fertilizers</item>
+        <item>Machines</item>
+        <item>Other</item>
+    </string-array>
+    <string name="amount_label">Amount</string>
+    <string name="title_activity_investment_detail">InvestmentDetail</string>
+    <string name="price_label">Price</string>
 </resources>

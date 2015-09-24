@@ -14,7 +14,13 @@ public class FarmerCrop
     public String FarmerPhoneNbr;
     public double EstimateYieldAmount;
     public Date EstimateYieldDate;
-    public double EstimateExpense;
+    public double EstimateInvestment;
     public boolean IsYieldDone;
+    public int UnitResourceIndex;
+    public double EstimatePrice;
+    public double ActualYieldAmount;
+    public Date ActualYieldDate;
+    public double ActualInvestment;
+    public double ActualPrice;
 }
 

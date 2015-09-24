@@ -1,45 +1,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vnr.farmersdiary.farmerCrops"
-    android:orientation="vertical"
+    tools:context="vnr.farmersdiary.InvestmentsDetail"
     android:background="#ffffff">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/material_deep_teal_200"
-        android:id="@+id/buttonRelativeLayout">
+        android:id="@+id/addButtonRelativeLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total:"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/investmentsDetailTotalText"/>
+        </LinearLayout>
+
 
         <Button
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:text="+"
             android:textSize="20dp"
-            android:id="@+id/button"
+            android:id="@+id/addInvestmentButton"
             android:textStyle="bold"
             android:layout_alignParentBottom="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:clickable="true"
-            android:onClick="onAddCropClick"
+            android:onClick="onAddInvestmentClick"
             android:background="@drawable/button_add_round_background"
             android:layout_centerVertical="true"
             android:textAlignment="center" />
+
     </RelativeLayout>
 
     <ProgressBar
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/farmerCropsProgres"
+        android:id="@+id/investmentsProgressBar"
         android:layout_centerInParent="true" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/farmerCropListView"
-        android:layout_below="@id/buttonRelativeLayout"
+        android:id="@+id/investmentsListView"
+        android:layout_below="@id/addButtonRelativeLayout"
         android:layout_margin="10dp"
         android:dividerHeight="10sp"
         android:drawSelectorOnTop="false"
