@@ -1,11 +1,18 @@
 package vnr.farmersdiary;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,7 +38,49 @@ public class CropDetail extends ActionBarActivity {
         CropDetailProgressBar.setVisibility(View.GONE);
 
         MobileServiceDataLayer.GetCropInvestments(this);
+
+
+//        GridLayout ll = (GridLayout) findViewById(R.id.investmentRect);
+//
+//        Paint paint = new Paint();
+//        paint.setColor(Color.parseColor("#CD5C5C"));
+//        Bitmap bg = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(bg);
+//        canvas.drawRect(5, 50, ll.getWidth(), 550, paint);
+//        ll.setBackgroundDrawable(new BitmapDrawable(bg));
+//
+//        GridLayout li = (GridLayout) findViewById(R.id.incomeRect);
+//
+//        Paint paintIncome = new Paint();
+//        paintIncome.setColor(Color.parseColor("#CD5C5C"));
+//        Bitmap bgIncome = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
+//        Canvas canvasIncome = new Canvas(bgIncome);
+//        canvasIncome.drawRect(5, 50, 350, 550, paint);
+//        li.setBackgroundDrawable(new BitmapDrawable(bgIncome));
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean b)
+    {
+        GridLayout ll = (GridLayout) findViewById(R.id.investmentRect);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#CFFF0F05"));
+        Bitmap bg = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bg);
+        canvas.drawRect(0, 0, ll.getWidth(), 550, paint);
+        ll.setBackgroundDrawable(new BitmapDrawable(bg));
+
+        GridLayout li = (GridLayout) findViewById(R.id.incomeRect);
+
+        Paint paintIncome = new Paint();
+        paintIncome.setColor(Color.parseColor("#C80EBB48"));
+        Bitmap bgIncome = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
+        Canvas canvasIncome = new Canvas(bgIncome);
+        canvasIncome.drawRect(0, 0, 350, 550, paintIncome);
+        li.setBackgroundDrawable(new BitmapDrawable(bgIncome));
+    }
+
 
     @Override
     protected void onResume()
