@@ -21,6 +21,10 @@ public class CropDetail extends ActionBarActivity {
     public String farmerCropId;
     public TextView TotalAmountTextView;
     public ProgressBar CropDetailProgressBar;
+    public TextView EstimateInvestmentTextView;
+    public TextView ActualInvestmentRectTextView;
+    public TextView EstimateIncomeRectTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,9 @@ public class CropDetail extends ActionBarActivity {
 
         TotalAmountTextView = (TextView)findViewById(R.id.investmentTotalAmountText);
         CropDetailProgressBar = (ProgressBar)findViewById(R.id.cropDetailProgressBar);
+        EstimateInvestmentTextView = (TextView)findViewById(R.id.estimateInvestmentTextView);
+        ActualInvestmentRectTextView = (TextView)findViewById(R.id.actualInvestmentRectTextView);
+        EstimateIncomeRectTextView = (TextView)findViewById(R.id.estimateIncomeRectTextView);
 
         Bundle params = getIntent().getExtras();
         if(params != null)
@@ -38,46 +45,82 @@ public class CropDetail extends ActionBarActivity {
         CropDetailProgressBar.setVisibility(View.GONE);
 
         MobileServiceDataLayer.GetCropInvestments(this);
-
-
-//        GridLayout ll = (GridLayout) findViewById(R.id.investmentRect);
-//
-//        Paint paint = new Paint();
-//        paint.setColor(Color.parseColor("#CD5C5C"));
-//        Bitmap bg = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bg);
-//        canvas.drawRect(5, 50, ll.getWidth(), 550, paint);
-//        ll.setBackgroundDrawable(new BitmapDrawable(bg));
-//
-//        GridLayout li = (GridLayout) findViewById(R.id.incomeRect);
-//
-//        Paint paintIncome = new Paint();
-//        paintIncome.setColor(Color.parseColor("#CD5C5C"));
-//        Bitmap bgIncome = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
-//        Canvas canvasIncome = new Canvas(bgIncome);
-//        canvasIncome.drawRect(5, 50, 350, 550, paint);
-//        li.setBackgroundDrawable(new BitmapDrawable(bgIncome));
     }
 
     @Override
     public void onWindowFocusChanged(boolean b)
     {
-        GridLayout ll = (GridLayout) findViewById(R.id.investmentRect);
+        //DrawNetIncomeGraph();
+        //findViewById(R.id.investmentRect).invalidate();
+        //findViewById(R.id.incomeRect).invalidate();
+    }
+
+    public void DrawNetIncomeGraph()
+    {
+        LinearLayout ll = (LinearLayout) findViewById(R.id.investmentRect);
+        LinearLayout li = (LinearLayout) findViewById(R.id.incomeRect);
+
+        int maxinvestmentwidth = ll.getWidth();
+        int maxincomewidth = li.getWidth();
+
+        if(maxincomewidth == 0 || maxinvestmentwidth == 0)
+        {
+            return;
+        }
+
+        int investmentWidth = 2;
+        int incomeWidth = 2;
+        FarmerCrop farmerCrop = null;
+
+        for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
+        {
+            if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(farmerCropId))
+            {
+                farmerCrop = ((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]);
+                break;
+            }
+        }
+
+        if(farmerCrop == null) return;
+
+        EstimateInvestmentTextView.setText(String.valueOf(farmerCrop.EstimateInvestment));
+        EstimateIncomeRectTextView.setText(String.valueOf(farmerCrop.EstimateIncome));
+        ActualInvestmentRectTextView.setText(String.valueOf(farmerCrop.ActualInvestment));
+
+        double income = farmerCrop.EstimateIncome;
+
+        if(farmerCrop.ActualInvestment >= income
+                && farmerCrop.ActualInvestment != 0)
+        {
+            investmentWidth = maxinvestmentwidth;
+
+            if(income != 0)
+            {
+                incomeWidth = (int) ((income/farmerCrop.ActualInvestment) * investmentWidth);
+            }
+        }
+        else if(income != 0)
+        {
+            incomeWidth = maxincomewidth;
+            if(farmerCrop.ActualInvestment != 0)
+            {
+                double div = (farmerCrop.ActualInvestment/income);
+                investmentWidth = (int) Math.round(div * incomeWidth);
+            }
+        }
 
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#CFFF0F05"));
-        Bitmap bg = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
+        Bitmap bg = Bitmap.createBitmap(maxinvestmentwidth, 800, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bg);
-        canvas.drawRect(0, 0, ll.getWidth(), 550, paint);
+        canvas.drawRect(0, 0, investmentWidth, 550, paint);
         ll.setBackgroundDrawable(new BitmapDrawable(bg));
-
-        GridLayout li = (GridLayout) findViewById(R.id.incomeRect);
 
         Paint paintIncome = new Paint();
         paintIncome.setColor(Color.parseColor("#C80EBB48"));
-        Bitmap bgIncome = Bitmap.createBitmap(580, 800, Bitmap.Config.ARGB_8888);
+        Bitmap bgIncome = Bitmap.createBitmap(maxincomewidth, 800, Bitmap.Config.ARGB_8888);
         Canvas canvasIncome = new Canvas(bgIncome);
-        canvasIncome.drawRect(0, 0, 350, 550, paintIncome);
+        canvasIncome.drawRect(0, 0, incomeWidth, 550, paintIncome);
         li.setBackgroundDrawable(new BitmapDrawable(bgIncome));
     }
 
@@ -87,10 +130,20 @@ public class CropDetail extends ActionBarActivity {
     {
         super.onResume();
         double totalAmount = 0;
-        for (int i = 0; i < Cache.InvestmentsCache.toArray().length; i++) {
-            totalAmount += ((Investment) Cache.InvestmentsCache.toArray()[i]).Amount;
+//        for (int i = 0; i < Cache.InvestmentsCache.toArray().length; i++) {
+//            totalAmount += ((Investment) Cache.InvestmentsCache.toArray()[i]).Amount;
+//        }
+        for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
+        {
+            if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(farmerCropId))
+            {
+               totalAmount = ((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).ActualInvestment;
+                break;
+            }
         }
         TotalAmountTextView.setText((String.valueOf(totalAmount)));
+        View view = findViewById(R.id.activity_crop_detail);
+        DrawNetIncomeGraph();
     }
 
 

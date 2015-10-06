@@ -25,4 +25,7 @@
     </string-array>
     <string name="amount_label">మొత్తం</string>
     <string name="price_label">ధర</string>
+    <string name="estimateInvestment">అంచనా పెట్టుబడి</string>
+    <string name="actualInvestment">అసలు పెట్టుబడి</string>
+    <string name="estimateIncome">అంచనా ఆదాయం</string>
 </resources>

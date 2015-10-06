@@ -1,7 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vnr.farmersdiary.CropDetail">
+    tools:context="vnr.farmersdiary.CropDetail"
+    android:id="@+id/activity_crop_detail">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,15 +27,39 @@
             android:background="@drawable/button_add_round_background" />
     </RelativeLayout>
 
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editRelativeLayout"
+        android:id="@+id/estmateInvestmentLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/estimateInvestment"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0.0"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/estimateInvestmentTextView"/>
+
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/editRelativeLayout"
+        android:layout_below="@id/estmateInvestmentLayout"
         android:background="@drawable/crop_expenses_background"
-        android:layout_margin="10dp"
         android:clickable="true"
         android:onClick="OnInvestmentsButtonClick"
-        android:id="@+id/investmentLayout">
+        android:id="@+id/investmentLayout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,32 +78,66 @@
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
-    <GridLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/investmentLayout"
-        android:rowCount="2" android:columnCount="1"
         android:layout_margin="5dp">
-        <GridLayout
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/actualInvestmentTextLayout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/actualInvestment"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="0.0"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/actualInvestmentRectTextView"/>
+        </LinearLayout>
+
+        <LinearLayout android:orientation="horizontal"
             android:layout_height="25dp"
             android:id="@+id/investmentRect"
             android:layout_width="match_parent"
-            android:layout_gravity="bottom"></GridLayout>
-        <!-- -->
-        <!--<TextView android:layout_row="0"-->
-            <!--android:layout_column="1"-->
-            <!--android:text="investment"-->
-            <!--android:layout_gravity="center_vertical" />-->
-        <GridLayout
+            android:layout_gravity="bottom"
+            android:layout_below="@+id/actualInvestmentTextLayout"></LinearLayout>
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/estimateIncomeTextLayout"
+            android:layout_below="@+id/investmentRect">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/estimateIncome"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="0.0"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/estimateIncomeRectTextView"/>
+        </LinearLayout>
+
+        <LinearLayout android:orientation="horizontal"
             android:layout_height="25dp"
             android:id="@+id/incomeRect"
             android:layout_width="match_parent"
-            android:layout_row="1"
-            android:layout_gravity="top"></GridLayout>
-        <!--<TextView android:layout_row="1" android:layout_column="1"-->
-            <!--android:text="income" android:id="@+id/incomeRectTextView"-->
-            <!--android:layout_gravity="center_vertical" />-->
-    </GridLayout>
+            android:layout_gravity="top"
+            android:layout_below="@+id/estimateIncomeTextLayout"></LinearLayout>
+
+    </RelativeLayout>
 
 
 
@@ -87,4 +147,5 @@
         android:id="@+id/cropDetailProgressBar"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

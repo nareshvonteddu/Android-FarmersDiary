@@ -328,8 +328,17 @@ public final class MobileServiceDataLayer
                                 Cache.InvestmentsCache.add((Investment) result.toArray()[i]);
                                 totalAmount += ((Investment) result.toArray()[i]).Amount;
                             }
+                            for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
+                            {
+                                if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(farmerCropId))
+                                {
+                                   ((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).ActualInvestment = totalAmount;
+                                    break;
+                                }
+                            }
                             ((CropDetail) context).TotalAmountTextView.setText((String.valueOf(totalAmount)));
                             ((CropDetail) context).CropDetailProgressBar.setVisibility(View.GONE);
+                            ((CropDetail) context).DrawNetIncomeGraph();
                         }
                     });
                 }
@@ -381,6 +390,14 @@ public final class MobileServiceDataLayer
                                 totalAmount += ((Investment) result.toArray()[i]).Amount;
                             }
                             ((InvestmentsDetail) context).totalAmounttextView.setText((String.valueOf(totalAmount)));
+                            for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
+                            {
+                                if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(farmerCropId))
+                                {
+                                    ((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).ActualInvestment = totalAmount;
+                                    break;
+                                }
+                            }
                             if(!Cache.InvestmentsCache.isEmpty())
                             {
                                 ((InvestmentsDetail) context).investmentListView.setAdapter(new InvestmentsItemAdapter(context, android.R.layout.simple_list_item_1, Cache.InvestmentsCache));
@@ -428,6 +445,14 @@ public final class MobileServiceDataLayer
                             for (int i = 0; i < Cache.InvestmentsCache.toArray().length; i++)
                             {
                                 totalAmount += ((Investment) Cache.InvestmentsCache.toArray()[i]).Amount;
+                            }
+                            for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
+                            {
+                                if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(((InvestmentsDetail) context).farmerCropId))
+                                {
+                                    ((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).ActualInvestment = totalAmount;
+                                    break;
+                                }
                             }
                             if(!Cache.InvestmentsCache.isEmpty())
                             {
@@ -483,6 +508,14 @@ public final class MobileServiceDataLayer
                             for (int i = 0; i < result.toArray().length; i++) {
                                 Cache.InvestmentsCache.add((Investment) result.toArray()[i]);
                                 totalAmount += ((Investment) result.toArray()[i]).Amount;
+                            }
+                            for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
+                            {
+                                if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(((InvestmentsDetail) context).farmerCropId))
+                                {
+                                    ((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).ActualInvestment = totalAmount;
+                                    break;
+                                }
                             }
                             ((InvestmentsDetail) context).totalAmounttextView.setText((String.valueOf(totalAmount)));
                             if(!Cache.InvestmentsCache.isEmpty())

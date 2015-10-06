@@ -36,4 +36,7 @@
     <string name="amount_label">Amount</string>
     <string name="title_activity_investment_detail">InvestmentDetail</string>
     <string name="price_label">Price</string>
+    <string name="estimateInvestment">Estimate Investment</string>
+    <string name="actualInvestment">Actual Investment</string>
+    <string name="estimateIncome">Estimate Income</string>
 </resources>

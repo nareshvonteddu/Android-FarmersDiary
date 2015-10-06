@@ -207,6 +207,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
                 break;
         }
         farmerCrop.EstimatePrice = Double.valueOf(estimatePriceEditText.getText().toString());
+        farmerCrop.EstimateIncome = Double.valueOf(estimateIncomeEditText.getText().toString());
 
         MobileServiceDataLayer.CreateFarmerCrop(farmerCrop, this);
     }

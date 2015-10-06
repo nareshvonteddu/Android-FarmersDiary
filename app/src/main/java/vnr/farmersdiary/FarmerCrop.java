@@ -15,6 +15,7 @@ public class FarmerCrop
     public double EstimateYieldAmount;
     public Date EstimateYieldDate;
     public double EstimateInvestment;
+    public double EstimateIncome;
     public boolean IsYieldDone;
     public int UnitResourceIndex;
     public double EstimatePrice;
