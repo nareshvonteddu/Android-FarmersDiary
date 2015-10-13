@@ -1,12 +1,13 @@
 package vnr.farmersdiary;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Spinner;
 
-public class AddEditInvestment extends ActionBarActivity {
+public class AddEditInvestment extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

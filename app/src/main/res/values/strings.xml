@@ -39,4 +39,7 @@
     <string name="estimateInvestment">Estimate Investment</string>
     <string name="actualInvestment">Actual Investment</string>
     <string name="estimateIncome">Estimate Income</string>
+    <string name="ActualYield">Actual Yield</string>
+    <string name="actualPrice">Actual Price</string>
+    <string name="ActualIncome">Actual Income</string>
 </resources>

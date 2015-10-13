@@ -28,4 +28,7 @@
     <string name="estimateInvestment">అంచనా పెట్టుబడి</string>
     <string name="actualInvestment">అసలు పెట్టుబడి</string>
     <string name="estimateIncome">అంచనా ఆదాయం</string>
+    <string name="ActualYield">అసలు దిగుబడి</string>
+    <string name="actualPrice">అసలు ధర</string>
+    <string name="ActualIncome">అసలు ఆదాయం</string>
 </resources>

@@ -17,11 +17,13 @@ public class FarmerCrop
     public double EstimateInvestment;
     public double EstimateIncome;
     public boolean IsYieldDone;
-    public int UnitResourceIndex;
+    public int EstimateYieldUnitIndex;
     public double EstimatePrice;
     public double ActualYieldAmount;
     public Date ActualYieldDate;
     public double ActualInvestment;
     public double ActualPrice;
+    public int ActualYieldUnitIndex;
+    public double ActualIncome;
 }
 

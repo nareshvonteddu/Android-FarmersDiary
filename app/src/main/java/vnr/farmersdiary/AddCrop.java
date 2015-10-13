@@ -63,6 +63,8 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         estimatePriceUnitTextView = (TextView) findViewById(R.id.estimatePriceUnitsTextView);
         estimateIncomeEditText = (EditText) findViewById(R.id.estimateIncomeEditText);
 
+        //estimatePriceEditText.addTextChangedListener(new DecimalFilter(estimateIncomeEditText,this));
+
         progressBar.setVisibility(View.GONE);
         farmerCrop = new FarmerCrop();
         acresEditText.setText("1");
@@ -116,8 +118,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
                     {
                         double yield = Double.valueOf(yieldEditText.getText().toString());
                         double price = Double.valueOf(estimatePriceEditText.getText().toString());
-                        String income = String.valueOf(yield * price);
-                        estimateIncomeEditText.setText(income);
+                        estimateIncomeEditText.setText(MainActivity.formatter.format(yield * price));
                     }
                     catch (Exception e)
                     {
@@ -193,7 +194,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
                 Context.MODE_PRIVATE);
         String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(),"");
         farmerCrop.FarmerPhoneNbr = phoneNbr;
-        farmerCrop.UnitResourceIndex = converterPosition;
+        farmerCrop.EstimateYieldUnitIndex = converterPosition;
         switch (converterPosition)
         {
             case 0:

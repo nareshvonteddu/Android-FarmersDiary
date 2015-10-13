@@ -14,11 +14,14 @@ import android.view.MenuItem;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity {
+
+    public static  final DecimalFormat formatter = new DecimalFormat("0.00");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

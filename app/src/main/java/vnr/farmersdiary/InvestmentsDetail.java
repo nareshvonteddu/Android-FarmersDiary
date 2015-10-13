@@ -1,5 +1,6 @@
 package vnr.farmersdiary;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.TypedArray;
 import android.nfc.FormatException;
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class InvestmentsDetail extends ActionBarActivity {
+public class InvestmentsDetail extends Activity {
 
     public ListView investmentListView;
     public TextView totalAmounttextView;
@@ -111,8 +112,7 @@ public class InvestmentsDetail extends ActionBarActivity {
                         }
                     }
                     ids.recycle();
-
-                    editInvestmentText.setText(String.valueOf(clickedInvestment.Amount));
+                    editInvestmentText.setText(MainActivity.formatter.format(clickedInvestment.Amount));
                 }
 
 

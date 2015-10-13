@@ -336,7 +336,7 @@ public final class MobileServiceDataLayer
                                     break;
                                 }
                             }
-                            ((CropDetail) context).TotalAmountTextView.setText((String.valueOf(totalAmount)));
+                            ((CropDetail) context). TotalAmountTextView.setText(MainActivity.formatter.format(totalAmount));
                             ((CropDetail) context).CropDetailProgressBar.setVisibility(View.GONE);
                             ((CropDetail) context).DrawNetIncomeGraph();
                         }
@@ -389,7 +389,8 @@ public final class MobileServiceDataLayer
                                 Cache.InvestmentsCache.add((Investment) result.toArray()[i]);
                                 totalAmount += ((Investment) result.toArray()[i]).Amount;
                             }
-                            ((InvestmentsDetail) context).totalAmounttextView.setText((String.valueOf(totalAmount)));
+
+                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.formatter.format(totalAmount));
                             for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
                             {
                                 if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(farmerCropId))
@@ -458,7 +459,8 @@ public final class MobileServiceDataLayer
                             {
                                 ((InvestmentsDetail) context).investmentListView.setAdapter(new InvestmentsItemAdapter(context, android.R.layout.simple_list_item_1, Cache.InvestmentsCache));
                             }
-                            ((InvestmentsDetail) context).totalAmounttextView.setText((String.valueOf(totalAmount)));
+
+                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.formatter.format(totalAmount));
                             ((InvestmentsDetail) context).investmentsProgressBar.setVisibility(View.GONE);
                         }
                     });
@@ -517,7 +519,8 @@ public final class MobileServiceDataLayer
                                     break;
                                 }
                             }
-                            ((InvestmentsDetail) context).totalAmounttextView.setText((String.valueOf(totalAmount)));
+
+                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.formatter.format(totalAmount));
                             if(!Cache.InvestmentsCache.isEmpty())
                             {
                                 ((InvestmentsDetail) context).investmentListView.setAdapter(new InvestmentsItemAdapter(context, android.R.layout.simple_list_item_1, Cache.InvestmentsCache));
