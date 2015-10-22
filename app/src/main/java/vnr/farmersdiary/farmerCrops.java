@@ -30,6 +30,7 @@ public class farmerCrops extends Activity {
         progressBar.setVisibility(View.GONE);
 
         if(Cache.CropRegionalCache.isEmpty()) {
+            //MobileServiceDataLayer.syncDBChanges(this);
             MobileServiceDataLayer.GetCrops(this);
         }
         else if(!Cache.FarmerCropUIArrayListCache.isEmpty())

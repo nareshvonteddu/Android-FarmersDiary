@@ -44,4 +44,11 @@
             android:nestedScrollingEnabled="false" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loginProgressBar"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

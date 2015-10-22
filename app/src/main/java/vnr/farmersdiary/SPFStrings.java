@@ -5,8 +5,8 @@ public enum SPFStrings
     SPFNAME ("FARMERSDIARY"),
     PHONENUMBER("PHONENUMBER"),
     USERID("USERID"),
-    LANGUAGE("LANG");
-
+    LANGUAGE("LANG"),
+    SYNCONSTART("SYNCONSTART");
 
     private String value;
 

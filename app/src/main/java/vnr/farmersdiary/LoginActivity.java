@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import java.util.Locale;
 import java.util.logging.Level;
@@ -27,6 +28,8 @@ public class LoginActivity extends ActionBarActivity
     EditText nameText;
     EditText phoneNbrText;
     Button doneButton;
+    public ProgressBar loginProgressBar;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -35,8 +38,9 @@ public class LoginActivity extends ActionBarActivity
 
         nameText = (EditText) findViewById(R.id.NameText);
         phoneNbrText = (EditText) findViewById(R.id.PhoneNbrText);
+        loginProgressBar = (ProgressBar) findViewById(R.id.loginProgressBar);
 
-
+        loginProgressBar.setVisibility(View.GONE);
     }
 
     public void onDoneClick(View view) {

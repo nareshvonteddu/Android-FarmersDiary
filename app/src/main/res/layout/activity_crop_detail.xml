@@ -24,7 +24,8 @@
             android:src="@drawable/ic_create_black_24dp"
             android:scaleType="centerInside"
             android:padding="10dp"
-            android:background="@drawable/button_add_round_background" />
+            android:background="@drawable/button_add_round_background"
+            android:clickable="true" />
     </RelativeLayout>
 
     <LinearLayout android:orientation="horizontal"

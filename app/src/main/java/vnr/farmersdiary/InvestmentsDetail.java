@@ -2,6 +2,8 @@ package vnr.farmersdiary;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.nfc.FormatException;
 import android.support.v7.app.ActionBarActivity;
@@ -145,6 +147,10 @@ public class InvestmentsDetail extends Activity {
                 newInvestment.InvestmentType = investmentTypeSpinner.getSelectedItem().toString();
                 newInvestment.Amount = Double.valueOf(editInvestmentText.getText().toString());
                 newInvestment.FarmerCropId = farmerCropId;
+                SharedPreferences loginPreferences = view.getContext().getSharedPreferences(SPFStrings.SPFNAME.getValue(),
+                        Context.MODE_PRIVATE);
+                String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
+                newInvestment.FarmerPhoneNbr = phoneNbr;
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 try {
                     Calendar c = Calendar.getInstance();
