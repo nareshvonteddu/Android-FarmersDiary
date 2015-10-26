@@ -77,7 +77,8 @@ public final class MobileServiceDataLayer
             SharedPreferences loginPreferences = context.getSharedPreferences(SPFStrings.SPFNAME.getValue(),
                     Context.MODE_PRIVATE);
             String syncOnStart = loginPreferences.getString(SPFStrings.SYNCONSTART.getValue(), "");
-            if(!syncOnStart.equals(String.valueOf(false)))
+            if(!syncOnStart.equals(String.valueOf(false))
+                    && !loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "").equals(""))
             {
                 syncDBChanges(context);
             }
@@ -174,7 +175,8 @@ public final class MobileServiceDataLayer
         SharedPreferences loginPreferences = context.getSharedPreferences(SPFStrings.SPFNAME.getValue(),
                 Context.MODE_PRIVATE);
         String languageCode = loginPreferences.getString(SPFStrings.LANGUAGE.getValue(), "");
-        if(languageCode.equals("")) {
+        if(languageCode.equals(""))
+        {
             mPullCropsQuery = mClient.getTable(Crop.class).where().select("Crop_Id", "Value");
         }
         else
@@ -212,7 +214,8 @@ public final class MobileServiceDataLayer
                                 Context.MODE_PRIVATE);
                         String languageCode = loginPreferences.getString(SPFStrings.LANGUAGE.getValue(), "");
                         ConstructGetCropsQuery(context);
-                        if(languageCode.equals("")) {
+                        if(languageCode.equals(""))
+                        {
                             cropsTable.pull(mPullCropsQuery).get();
                         }
                         else
@@ -281,6 +284,8 @@ public final class MobileServiceDataLayer
                                // String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
 
                                 ((LoginActivity)context).loginProgressBar.setVisibility(View.GONE);
+
+                                syncDBChanges(context);
 
                                 Intent I = new Intent(context, farmerCrops.class);
                                 context.startActivity(I);
@@ -488,6 +493,82 @@ public final class MobileServiceDataLayer
 
     }
 
+    public static void UpdateFarmerCrop(final FarmerCrop farmerCrop, final AddCrop addCrop) {
+
+        addCrop.progressBar.setVisibility(View.VISIBLE);
+
+        new AsyncTask<Void, Void, Void>()
+        {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+
+                    tableFarmerCrop.update(farmerCrop).get();
+
+                    syncDBChanges(addCrop);
+
+                    Query query = mClient.getTable(FarmerCrop.class).where().field("FarmerPhoneNbr").eq(farmerCrop.FarmerPhoneNbr);
+                    final MobileServiceList<FarmerCrop> resultFarmerCrop = tableFarmerCrop.read(query).get();
+
+                    //final MobileServiceList<FarmerCrop> resultFarmerCrop = tableFarmerCrop.where().field("FarmerPhoneNbr").eq(farmerCrop.FarmerPhoneNbr).execute().get();
+
+                    addCrop.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            addCrop.progressBar.setVisibility(View.GONE);
+                            Cache.FarmerCropsCache.clear();
+                            for (int i = 0; i < resultFarmerCrop.toArray().length; i++) {
+                                Cache.FarmerCropsCache.add((FarmerCrop) resultFarmerCrop.toArray()[i]);
+                            }
+                            Cache.FarmerCropUIArrayListCache.clear();
+                            for (FarmerCrop farmerCrop : Cache.FarmerCropsCache) {
+                                FarmerCropUI farmerCropUI = new FarmerCropUI();
+                                farmerCropUI.id = farmerCrop.id;
+                                farmerCropUI.Crop_Id = farmerCrop.Crop_Id;
+                                for (CropRegional cropRegional : Cache.CropRegionalCache) {
+                                    if (cropRegional.Crop_Id == farmerCropUI.Crop_Id) {
+                                        farmerCropUI.CropName = cropRegional.Value;
+                                    }
+                                }
+                                farmerCropUI.Acres = farmerCrop.Acres;
+                                farmerCropUI.CropDate = farmerCrop.CropDate;
+                                farmerCropUI.FarmerPhoneNbr = farmerCrop.FarmerPhoneNbr;
+                                farmerCropUI.EstimateExpense = farmerCrop.EstimateInvestment;
+                                farmerCropUI.EstimateYieldAmount = farmerCrop.EstimateYieldAmount;
+                                farmerCropUI.EstimateYieldDate = farmerCrop.EstimateYieldDate;
+                                farmerCropUI.IsYieldDone = farmerCrop.IsYieldDone;
+                                Cache.FarmerCropUIArrayListCache.add(farmerCropUI);
+                                Collections.sort(Cache.FarmerCropUIArrayListCache, new Comparator<FarmerCropUI>() {
+                                    @Override
+                                    public int compare(FarmerCropUI lhs, FarmerCropUI rhs) {
+
+                                        return lhs.CropDate.compareTo(rhs.CropDate);
+                                    }
+                                });
+                            }
+
+                            addCrop.finish();
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    addCrop.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            addCrop.progressBar.setVisibility(View.GONE);
+                        }
+                    });
+                }
+                return null;
+            }
+        }.execute();
+
+    }
+
     public static void GetCropInvestments(final Context context)
     {
         final String farmerCropId = ((CropDetail)context).farmerCropId;
@@ -504,8 +585,6 @@ public final class MobileServiceDataLayer
                     final MobileServiceList<Investment> result = investmentTable.read(mPullAllInvestmentsQuery).get();
 
                     ((CropDetail) context).runOnUiThread(new Runnable() {
-
-
                         @Override
                         public void run() {
                             Cache.InvestmentsCache.clear();
@@ -528,8 +607,8 @@ public final class MobileServiceDataLayer
                                 }
                             }
                             ((CropDetail) context). TotalAmountTextView.setText(MainActivity.formatter.format(totalAmount));
-                            ((CropDetail) context).CropDetailProgressBar.setVisibility(View.GONE);
                             ((CropDetail) context).DrawNetIncomeGraph();
+                            ((CropDetail) context).CropDetailProgressBar.setVisibility(View.GONE);
                         }
                     });
                 }

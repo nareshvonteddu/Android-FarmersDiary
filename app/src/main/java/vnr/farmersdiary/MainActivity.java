@@ -42,20 +42,39 @@ public class MainActivity extends ActionBarActivity {
         params.toArray(array);
         new GetUser().execute(array);*/
 
-
-        String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(),"");
-
-        if(phoneNbr == "") {
-            Intent I = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(I);
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
         }
-        else
-        {
-            Intent I = new Intent(MainActivity.this, farmerCrops.class);
-            startActivity(I);
+        else {
+
+            String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
+
+            if (phoneNbr == "") {
+                Intent I = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(I);
+            } else
+            {
+                String languageCode = loginPreferences.getString(SPFStrings.LANGUAGE.getValue(), "");
+                if(!languageCode.equals("")) setLocale(languageCode);
+                Intent I = new Intent(MainActivity.this, farmerCrops.class);
+                startActivity(I);
+            }
         }
+
     }
 
+    public void setLocale(String lang)
+    {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        //Intent refresh = new Intent(this, LoginActivity.class);
+        //startActivity(refresh);
+        //finish();
+    }
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {

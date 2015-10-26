@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FarmersDiary</string>
+    <string name="app_name">Farmer\'s Diary</string>
     <string name="serviceURL">http://farmersdiaryservice.cloudapp.net/FarmersDiaryService.svc/</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -42,4 +42,10 @@
     <string name="ActualYield">Actual Yield</string>
     <string name="actualPrice">Actual Price</string>
     <string name="ActualIncome">Actual Income</string>
+    <string name="ActualLabel" >Actuals</string>
+    <string name="YieldDoneSwitchLabel">Yield Done</string>
+    <string-array name="languages_array">
+        <item id="@+id/action_english">English</item>
+        <item id="@+id/action_telugu">తెలుగు</item>
+    </string-array>
 </resources>

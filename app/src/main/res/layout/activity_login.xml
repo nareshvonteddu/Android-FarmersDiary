@@ -1,8 +1,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:id="@+id/loginMainLayout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="true"
+        android:background="@color/material_deep_teal_200"
+        android:id="@+id/loginHeaderLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="false"
+            android:layout_marginLeft="5dp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,17 +30,21 @@
         android:layout_alignParentEnd="false"
         android:layout_alignParentStart="false"
         android:paddingLeft="10dp"
-        android:paddingTop="100dp"
+        android:paddingTop="50dp"
         android:paddingRight="10dp"
-        android:paddingBottom="100dp">
+        android:paddingBottom="100dp"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/loginHeaderLayout">
 
-        <EditText
+
+        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/NameText"
-            android:hint="@string/hintName" />
+            android:id="@+id/languagesSpinner"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="-5dp">
+        </Spinner>
 
         <EditText
             android:layout_width="match_parent"
@@ -31,17 +54,24 @@
             android:id="@+id/PhoneNbrText"
             android:hint="@string/hintPhone" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:text="@string/done"
             android:id="@+id/DoneButton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
             android:onClick="onDoneClick"
             android:clickable="true"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:background="@drawable/button_done_round_background"
+            android:src="@drawable/ic_check_black_24dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            />
 
     </LinearLayout>
 
@@ -50,5 +80,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/loginProgressBar"
         android:layout_gravity="center_horizontal"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"/>
 </RelativeLayout>

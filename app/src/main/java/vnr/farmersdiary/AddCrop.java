@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.microsoft.windowsazure.mobileservices.table.sync.localstore.MobileServiceLocalStore;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,6 +46,8 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
 
 
     private CropRegional selectedCrop;
+    private String farmerCropId;
+    private boolean isUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +138,73 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         //MobileServiceDataLayer.GetCrops(this);
         cropSpinner.setAdapter(new AddCropSpinnerItemAdapter(this, android.R.layout.simple_dropdown_item_1line, Cache.CropRegionalCache));
 
+
+        Bundle params = getIntent().getExtras();
+        if(params != null)
+        {
+            farmerCropId = params.getString("farmerCropId");
+            farmerCrop.id = farmerCropId;
+            isUpdate = true;
+        }
+
+        if(farmerCropId != null)
+        {
+            FarmerCrop editingFarmerCrop = null;
+            for (int i = 0; i <= Cache.FarmerCropsCache.toArray().length; i++)
+            {
+                if(farmerCropId.equals(Cache.FarmerCropsCache.get(i).id))
+                {
+                    editingFarmerCrop = Cache.FarmerCropsCache.get(i);
+                    break;
+                }
+            }
+            CropRegional selectedCrop = null;
+            for (int i = 0; i<= Cache.CropRegionalCache.toArray().length; i++)
+            {
+                if(Cache.CropRegionalCache.get(i).Crop_Id == editingFarmerCrop.Crop_Id)
+                {
+                    selectedCrop = Cache.CropRegionalCache.get(i);
+                    break;
+                }
+            }
+            cropSpinner.setSelection(((AddCropSpinnerItemAdapter) cropSpinner.getAdapter()).getPosition(selectedCrop));
+            acresEditText.setText(String.valueOf(editingFarmerCrop.Acres));
+            try
+            {
+                String formattedDate = dateFormat.format(editingFarmerCrop.CropDate);
+                sowDate.setText(formattedDate);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            investment.setText(String.valueOf(editingFarmerCrop.EstimateInvestment));
+            try
+            {
+                String formattedDate = dateFormat.format(editingFarmerCrop.EstimateYieldDate);
+                yieldDate.setText(formattedDate);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            unitsSpiner.setSelection(editingFarmerCrop.EstimateYieldUnitIndex);
+            switch (editingFarmerCrop.EstimateYieldUnitIndex)
+            {
+                case 0:
+                    yieldEditText.setText(String.valueOf(editingFarmerCrop.EstimateYieldAmount));
+                    break;
+                case 1:
+                    yieldEditText.setText(String.valueOf(editingFarmerCrop.EstimateYieldAmount/100));
+                    break;
+                case 2:
+                    yieldEditText.setText(String.valueOf(editingFarmerCrop.EstimateYieldAmount/1000));
+                    break;
+            }
+            estimatePriceEditText.setText(String.valueOf(editingFarmerCrop.EstimatePrice));
+            estimateIncomeEditText.setText(String.valueOf(editingFarmerCrop.EstimateIncome));
+        }
+
     }
 
     public void onYieldDateClick(View view)
@@ -142,7 +213,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day)
             {
-                yieldDate.setText(day+"/"+month+"/"+year);
+                yieldDate.setText(day+"/"+(month + 1)+"/"+year);
             }
         };
         newFragment.show(getFragmentManager(), "datePicker");
@@ -154,7 +225,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day)
             {
-                sowDate.setText(day+"/"+month+"/"+year);
+                sowDate.setText(day+"/"+(month + 1)+"/"+year);
             }
         };
         newFragment.show(getFragmentManager(), "datePicker");
@@ -210,7 +281,14 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         farmerCrop.EstimatePrice = Double.valueOf(estimatePriceEditText.getText().toString());
         farmerCrop.EstimateIncome = Double.valueOf(estimateIncomeEditText.getText().toString());
 
-        MobileServiceDataLayer.CreateFarmerCrop(farmerCrop, this);
+        if(isUpdate)
+        {
+            MobileServiceDataLayer.UpdateFarmerCrop(farmerCrop,this);
+        }
+        else
+        {
+            MobileServiceDataLayer.CreateFarmerCrop(farmerCrop, this);
+        }
     }
 
 //    @Override

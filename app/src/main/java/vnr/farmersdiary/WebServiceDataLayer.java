@@ -67,7 +67,6 @@ class GetUser extends AsyncTask<NameValuePair, Integer, HttpEntity> {
         try {
             String s = convertStreamToString(entity.getContent());
             User sr = gson.fromJson(s, User.class);
-            String sp = sr.Name;
         } catch (IOException e) {
             e.printStackTrace();
         }

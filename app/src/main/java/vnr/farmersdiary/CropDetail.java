@@ -14,11 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 public class CropDetail extends Activity {
@@ -37,6 +39,10 @@ public class CropDetail extends Activity {
     public TextView ActualIncomeEditText;
     public TextView ActualActualInvestmentRectTextView;
     public TextView ActualIncomeRectTextView;
+    public TextView DetailCropNameTextView;
+    public TextView DetailAcresTextView;
+    Switch yieldDoneSwitch;
+    LinearLayout ActualsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +62,19 @@ public class CropDetail extends Activity {
         ActualIncomeEditText = (EditText) findViewById(R.id.actualIncomeEditText);
         ActualActualInvestmentRectTextView = (TextView) findViewById(R.id.actualActualInvestmentRectTextView);
         ActualIncomeRectTextView = (TextView) findViewById(R.id.actualIncomeRectTextView);
+        DetailAcresTextView = (TextView) findViewById(R.id.tvDetailCropAcres);
+        DetailCropNameTextView = (TextView) findViewById(R.id.tvDetailCropName);
+        yieldDoneSwitch = (Switch) findViewById(R.id.switchYieldDone);
+        ActualsLayout = (LinearLayout) findViewById(R.id.actualsLayout);
 
         Bundle params = getIntent().getExtras();
         if (params != null) {
             farmerCropId = params.getString("farmerCropId");
+            DetailCropNameTextView.setText(params.getString("farmerCropName"));
+            DetailAcresTextView.setText(params.getString("farmerCropAcres"));
         }
 
         CropDetailProgressBar.setVisibility(View.GONE);
-
-        MobileServiceDataLayer.GetCropInvestments(this);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.units_array, android.R.layout.simple_spinner_item);
@@ -96,29 +106,43 @@ public class CropDetail extends Activity {
         });
 
         ActualPriceUnitsTextView.setText(ActualYieldUnitSpinner.getSelectedItem().toString());
-        ActualPriceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        ActualPriceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
-                {
-                    try
-                    {
+                if (!hasFocus) {
+                    try {
                         double yield = Double.valueOf(ActualYieldAmountEditText.getText().toString());
                         double price = Double.valueOf(ActualPriceEditText.getText().toString());
                         String income = MainActivity.formatter.format(yield * price);
                         ActualIncomeEditText.setText(income);
                         ActualIncomeRectTextView.setText(String.valueOf(income));
                         DrawActualNetIncomeGraph();
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         ActualIncomeEditText.setText("0.0");
                     }
                 }
             }
         });
+
+        yieldDoneSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if(isChecked)
+                {
+                    ActualsLayout.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    ActualsLayout.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        MobileServiceDataLayer.GetCropInvestments(this);
     }
 
     public void DrawActualNetIncomeGraph()
@@ -262,6 +286,11 @@ public class CropDetail extends Activity {
         li.setBackgroundDrawable(new BitmapDrawable(bgIncome));
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        DrawNetIncomeGraph();
+    }
 
     @Override
     protected void onResume()
@@ -292,6 +321,13 @@ public class CropDetail extends Activity {
         Intent I = new Intent(this, InvestmentsDetail.class);
         I.putExtra("farmerCropId", farmerCropId);
         I.putExtra("totalInvestment", TotalAmountTextView.getText());
+        startActivity(I);
+    }
+
+    public void OnEditButtonClick(View view)
+    {
+        Intent I = new Intent(this, AddCrop.class);
+        I.putExtra("farmerCropId", farmerCropId);
         startActivity(I);
     }
 

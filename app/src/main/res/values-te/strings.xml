@@ -31,4 +31,6 @@
     <string name="ActualYield">అసలు దిగుబడి</string>
     <string name="actualPrice">అసలు ధర</string>
     <string name="ActualIncome">అసలు ఆదాయం</string>
+    <string name="ActualLabel">అసలు</string>
+    <string name="YieldDoneSwitchLabel">దిగుబడి పూర్తి</string>
 </resources>

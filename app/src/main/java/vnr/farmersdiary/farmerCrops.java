@@ -45,6 +45,8 @@ public class farmerCrops extends Activity {
                 Intent ICropDetailActivity = new Intent(parent.getContext(),CropDetail.class);
                 FarmerCropUI farmerCropUI = (FarmerCropUI) farmerCropListView.getItemAtPosition(position);
                 ICropDetailActivity.putExtra("farmerCropId",farmerCropUI.id);
+                ICropDetailActivity.putExtra("farmerCropName",farmerCropUI.CropName);
+                ICropDetailActivity.putExtra("farmerCropAcres", String.valueOf(farmerCropUI.Acres));
                 startActivity(ICropDetailActivity);
             }
         });
