@@ -5,21 +5,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.nfc.FormatException;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,7 +22,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class InvestmentsDetail extends Activity {
 
@@ -114,7 +107,7 @@ public class InvestmentsDetail extends Activity {
                         }
                     }
                     ids.recycle();
-                    editInvestmentText.setText(MainActivity.formatter.format(clickedInvestment.Amount));
+                    editInvestmentText.setText(MainActivity.currencyFormatter.format(clickedInvestment.Amount));
                 }
 
 

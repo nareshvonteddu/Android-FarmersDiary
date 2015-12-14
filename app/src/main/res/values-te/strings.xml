@@ -26,11 +26,14 @@
     <string name="amount_label">మొత్తం</string>
     <string name="price_label">ధర</string>
     <string name="estimateInvestment">అంచనా పెట్టుబడి</string>
-    <string name="actualInvestment">అసలు పెట్టుబడి</string>
+    <string name="actualInvestment">పెట్టుబడి</string>
     <string name="estimateIncome">అంచనా ఆదాయం</string>
-    <string name="ActualYield">అసలు దిగుబడి</string>
-    <string name="actualPrice">అసలు ధర</string>
-    <string name="ActualIncome">అసలు ఆదాయం</string>
+    <string name="ActualYield">దిగుబడి</string>
+    <string name="actualPrice">ధర</string>
+    <string name="ActualIncome">ఆదాయం</string>
     <string name="ActualLabel">అసలు</string>
     <string name="YieldDoneSwitchLabel">దిగుబడి పూర్తి</string>
+    <string name="ProfitText">లాభం</string>
+    <string name="LossText">నష్టం</string>
+    <string name="IncomeText">ఆదాయం</string>
 </resources>

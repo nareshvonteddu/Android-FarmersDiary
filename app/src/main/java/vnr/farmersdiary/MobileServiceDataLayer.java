@@ -493,6 +493,82 @@ public final class MobileServiceDataLayer
 
     }
 
+    public static void SaveActuals(final FarmerCrop farmerCrop, final Actuals actuals) {
+
+        //addCrop.progressBar.setVisibility(View.VISIBLE);
+
+        new AsyncTask<Void, Void, Void>()
+        {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+
+                    tableFarmerCrop.update(farmerCrop).get();
+
+                    syncDBChanges(actuals);
+
+                    Query query = mClient.getTable(FarmerCrop.class).where().field("FarmerPhoneNbr").eq(farmerCrop.FarmerPhoneNbr);
+                    final MobileServiceList<FarmerCrop> resultFarmerCrop = tableFarmerCrop.read(query).get();
+
+                    //final MobileServiceList<FarmerCrop> resultFarmerCrop = tableFarmerCrop.where().field("FarmerPhoneNbr").eq(farmerCrop.FarmerPhoneNbr).execute().get();
+
+                    actuals.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //addCrop.progressBar.setVisibility(View.GONE);
+                            Cache.FarmerCropsCache.clear();
+                            for (int i = 0; i < resultFarmerCrop.toArray().length; i++) {
+                                Cache.FarmerCropsCache.add((FarmerCrop) resultFarmerCrop.toArray()[i]);
+                            }
+                            Cache.FarmerCropUIArrayListCache.clear();
+                            for (FarmerCrop farmerCrop : Cache.FarmerCropsCache) {
+                                FarmerCropUI farmerCropUI = new FarmerCropUI();
+                                farmerCropUI.id = farmerCrop.id;
+                                farmerCropUI.Crop_Id = farmerCrop.Crop_Id;
+                                for (CropRegional cropRegional : Cache.CropRegionalCache) {
+                                    if (cropRegional.Crop_Id == farmerCropUI.Crop_Id) {
+                                        farmerCropUI.CropName = cropRegional.Value;
+                                    }
+                                }
+                                farmerCropUI.Acres = farmerCrop.Acres;
+                                farmerCropUI.CropDate = farmerCrop.CropDate;
+                                farmerCropUI.FarmerPhoneNbr = farmerCrop.FarmerPhoneNbr;
+                                farmerCropUI.EstimateExpense = farmerCrop.EstimateInvestment;
+                                farmerCropUI.EstimateYieldAmount = farmerCrop.EstimateYieldAmount;
+                                farmerCropUI.EstimateYieldDate = farmerCrop.EstimateYieldDate;
+                                farmerCropUI.IsYieldDone = farmerCrop.IsYieldDone;
+                                Cache.FarmerCropUIArrayListCache.add(farmerCropUI);
+                                Collections.sort(Cache.FarmerCropUIArrayListCache, new Comparator<FarmerCropUI>() {
+                                    @Override
+                                    public int compare(FarmerCropUI lhs, FarmerCropUI rhs) {
+
+                                        return lhs.CropDate.compareTo(rhs.CropDate);
+                                    }
+                                });
+                            }
+
+                            actuals.finish();
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    actuals.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                           // addCrop.progressBar.setVisibility(View.GONE);
+                        }
+                    });
+                }
+                return null;
+            }
+        }.execute();
+
+    }
+
     public static void UpdateFarmerCrop(final FarmerCrop farmerCrop, final AddCrop addCrop) {
 
         addCrop.progressBar.setVisibility(View.VISIBLE);
@@ -606,7 +682,7 @@ public final class MobileServiceDataLayer
                                     break;
                                 }
                             }
-                            ((CropDetail) context). TotalAmountTextView.setText(MainActivity.formatter.format(totalAmount));
+                            ((CropDetail) context). TotalAmountTextView.setText(MainActivity.currencyFormatter.format(totalAmount));
                             ((CropDetail) context).DrawNetIncomeGraph();
                             ((CropDetail) context).CropDetailProgressBar.setVisibility(View.GONE);
                         }
@@ -665,7 +741,7 @@ public final class MobileServiceDataLayer
                                 }
                             }
 
-                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.formatter.format(totalAmount));
+                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.currencyFormatter.format(totalAmount));
                             for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
                             {
                                 if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(farmerCropId))
@@ -725,11 +801,11 @@ public final class MobileServiceDataLayer
                         public void run() {
                             double totalAmount = 0;
 
-                            for (int i = 0; i < Cache.InvestmentsCache.toArray().length; i++)
+                            for (int i = 0; i < result.toArray().length; i++)
                             {
                                 if(((Investment) result.toArray()[i]).FarmerCropId.equals(farmerCropId))
                                 {
-                                    totalAmount += ((Investment) Cache.InvestmentsCache.toArray()[i]).Amount;
+                                    totalAmount += ((Investment)result.toArray()[i]).Amount;
                                 }
                             }
                             for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
@@ -745,7 +821,7 @@ public final class MobileServiceDataLayer
                                 ((InvestmentsDetail) context).investmentListView.setAdapter(new InvestmentsItemAdapter(context, android.R.layout.simple_list_item_1, Cache.InvestmentsCache));
                             }
 
-                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.formatter.format(totalAmount));
+                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.currencyFormatter.format(totalAmount));
                             ((InvestmentsDetail) context).investmentsProgressBar.setVisibility(View.GONE);
                         }
                     });
@@ -811,7 +887,7 @@ public final class MobileServiceDataLayer
                                 }
                             }
 
-                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.formatter.format(totalAmount));
+                            ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.currencyFormatter.format(totalAmount));
                             if(!Cache.InvestmentsCache.isEmpty())
                             {
                                 ((InvestmentsDetail) context).investmentListView.setAdapter(new InvestmentsItemAdapter(context, android.R.layout.simple_list_item_1, Cache.InvestmentsCache));

@@ -8,20 +8,12 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.text.DecimalFormat;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends ActionBarActivity {
 
-    public static  final DecimalFormat formatter = new DecimalFormat("0.00");
+    public static  final DecimalFormat currencyFormatter = new DecimalFormat("0.00");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -17,8 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.microsoft.windowsazure.mobileservices.table.sync.localstore.MobileServiceLocalStore;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -122,7 +120,7 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
                     {
                         double yield = Double.valueOf(yieldEditText.getText().toString());
                         double price = Double.valueOf(estimatePriceEditText.getText().toString());
-                        estimateIncomeEditText.setText(MainActivity.formatter.format(yield * price));
+                        estimateIncomeEditText.setText(MainActivity.currencyFormatter.format(yield * price));
                     }
                     catch (Exception e)
                     {

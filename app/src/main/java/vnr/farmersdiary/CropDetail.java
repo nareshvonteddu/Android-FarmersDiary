@@ -7,20 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 public class CropDetail extends Activity {
@@ -31,18 +21,11 @@ public class CropDetail extends Activity {
     public TextView EstimateInvestmentTextView;
     public TextView ActualInvestmentRectTextView;
     public TextView EstimateIncomeRectTextView;
-    public EditText ActualYieldAmountEditText;
-    public Spinner ActualYieldUnitSpinner;
-    public TextView ActualYieldConversionTextView;
-    public EditText ActualPriceEditText;
-    public TextView ActualPriceUnitsTextView;
-    public TextView ActualIncomeEditText;
-    public TextView ActualActualInvestmentRectTextView;
-    public TextView ActualIncomeRectTextView;
     public TextView DetailCropNameTextView;
     public TextView DetailAcresTextView;
-    Switch yieldDoneSwitch;
-    LinearLayout ActualsLayout;
+    public TextView ProfitTextView;
+    public TextView LossTextView;
+    public TextView ProfitValueTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +37,11 @@ public class CropDetail extends Activity {
         EstimateInvestmentTextView = (TextView) findViewById(R.id.estimateInvestmentTextView);
         ActualInvestmentRectTextView = (TextView) findViewById(R.id.actualInvestmentRectTextView);
         EstimateIncomeRectTextView = (TextView) findViewById(R.id.estimateIncomeRectTextView);
-        ActualYieldAmountEditText = (EditText) findViewById(R.id.actualYieldEditText);
-        ActualYieldUnitSpinner = (Spinner) findViewById(R.id.actualYieldUnitsSpinner);
-        ActualYieldConversionTextView = (TextView) findViewById(R.id.actualYieldConvertionTextView);
-        ActualPriceEditText = (EditText) findViewById(R.id.actualPriceEditText);
-        ActualPriceUnitsTextView = (TextView) findViewById(R.id.actualPriceUnitsTextView);
-        ActualIncomeEditText = (EditText) findViewById(R.id.actualIncomeEditText);
-        ActualActualInvestmentRectTextView = (TextView) findViewById(R.id.actualActualInvestmentRectTextView);
-        ActualIncomeRectTextView = (TextView) findViewById(R.id.actualIncomeRectTextView);
         DetailAcresTextView = (TextView) findViewById(R.id.tvDetailCropAcres);
         DetailCropNameTextView = (TextView) findViewById(R.id.tvDetailCropName);
-        yieldDoneSwitch = (Switch) findViewById(R.id.switchYieldDone);
-        ActualsLayout = (LinearLayout) findViewById(R.id.actualsLayout);
+        ProfitTextView = (TextView) findViewById(R.id.estimateProfitTextView);
+        LossTextView = (TextView) findViewById(R.id.estimateLossTextView);
+        ProfitValueTextView = (TextView) findViewById(R.id.estimateProfitValueTextView);
 
         Bundle params = getIntent().getExtras();
         if (params != null) {
@@ -76,145 +52,7 @@ public class CropDetail extends Activity {
 
         CropDetailProgressBar.setVisibility(View.GONE);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.units_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ActualYieldUnitSpinner.setAdapter(adapter);
-        ActualYieldUnitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String converterText = "";
-                switch (position) {
-                    case 0:
-                        converterText = " = X 1kg";
-                        break;
-                    case 1:
-                        converterText = " = X 100kg";
-                        break;
-                    case 2:
-                        converterText = " = X 1000kg";
-                        break;
-                }
-                ActualYieldConversionTextView.setText(converterText);
-                ActualPriceUnitsTextView.setText(ActualYieldUnitSpinner.getSelectedItem().toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        ActualPriceUnitsTextView.setText(ActualYieldUnitSpinner.getSelectedItem().toString());
-        ActualPriceEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    try {
-                        double yield = Double.valueOf(ActualYieldAmountEditText.getText().toString());
-                        double price = Double.valueOf(ActualPriceEditText.getText().toString());
-                        String income = MainActivity.formatter.format(yield * price);
-                        ActualIncomeEditText.setText(income);
-                        ActualIncomeRectTextView.setText(String.valueOf(income));
-                        DrawActualNetIncomeGraph();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        ActualIncomeEditText.setText("0.0");
-                    }
-                }
-            }
-        });
-
-        yieldDoneSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-            {
-                if(isChecked)
-                {
-                    ActualsLayout.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    ActualsLayout.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
         MobileServiceDataLayer.GetCropInvestments(this);
-    }
-
-    public void DrawActualNetIncomeGraph()
-    {
-        LinearLayout ll = (LinearLayout) findViewById(R.id.actualInvestmentRect);
-        LinearLayout li = (LinearLayout) findViewById(R.id.actualIncomeRect);
-
-        int maxinvestmentwidth = ll.getWidth();
-        int maxincomewidth = li.getWidth();
-
-        if(maxincomewidth == 0 || maxinvestmentwidth == 0)
-        {
-            return;
-        }
-
-        int investmentWidth = 2;
-        int incomeWidth = 2;
-        FarmerCrop farmerCrop = null;
-
-        for (int i = 0; i < Cache.FarmerCropsCache.toArray().length; i++)
-        {
-            if(((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]).id.equals(farmerCropId))
-            {
-                farmerCrop = ((FarmerCrop)Cache.FarmerCropsCache.toArray()[i]);
-                break;
-            }
-        }
-
-        if(ActualIncomeRectTextView.getText().equals(""))
-        {
-            ActualIncomeRectTextView.setText("00.00");
-        }
-
-        //EstimateInvestmentTextView.setText(MainActivity.formatter.format(farmerCrop.EstimateInvestment));
-        //EstimateIncomeRectTextView.setText(MainActivity.formatter.format(farmerCrop.EstimateIncome));
-        ActualActualInvestmentRectTextView.setText(MainActivity.formatter.format(farmerCrop.ActualInvestment));
-
-        double income = Double.valueOf(ActualIncomeRectTextView.getText().toString());
-
-        if(farmerCrop.ActualInvestment >= income
-                && farmerCrop.ActualInvestment != 0)
-        {
-            investmentWidth = maxinvestmentwidth;
-
-            if(income != 0)
-            {
-                incomeWidth = (int) ((income/farmerCrop.ActualInvestment) * investmentWidth);
-            }
-        }
-        else if(income != 0)
-        {
-            incomeWidth = maxincomewidth;
-            if(farmerCrop.ActualInvestment != 0)
-            {
-                double div = (farmerCrop.ActualInvestment/income);
-                investmentWidth = (int) Math.round(div * incomeWidth);
-            }
-        }
-
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#CFFF0F05"));
-        Bitmap bg = Bitmap.createBitmap(maxinvestmentwidth, 800, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bg);
-        canvas.drawRect(0, 0, investmentWidth, 550, paint);
-        ll.setBackgroundDrawable(new BitmapDrawable(bg));
-
-        Paint paintIncome = new Paint();
-        paintIncome.setColor(Color.parseColor("#C80EBB48"));
-        Bitmap bgIncome = Bitmap.createBitmap(maxincomewidth, 800, Bitmap.Config.ARGB_8888);
-        Canvas canvasIncome = new Canvas(bgIncome);
-        canvasIncome.drawRect(0, 0, incomeWidth, 550, paintIncome);
-        li.setBackgroundDrawable(new BitmapDrawable(bgIncome));
     }
 
     public void DrawNetIncomeGraph()
@@ -245,9 +83,24 @@ public class CropDetail extends Activity {
 
         if(farmerCrop == null) return;
 
-        EstimateInvestmentTextView.setText(MainActivity.formatter.format(farmerCrop.EstimateInvestment));
-        EstimateIncomeRectTextView.setText(MainActivity.formatter.format(farmerCrop.EstimateIncome));
-        ActualInvestmentRectTextView.setText(MainActivity.formatter.format(farmerCrop.ActualInvestment));
+        EstimateInvestmentTextView.setText(MainActivity.currencyFormatter.format(farmerCrop.EstimateInvestment));
+        EstimateIncomeRectTextView.setText(MainActivity.currencyFormatter.format(farmerCrop.EstimateIncome));
+        ActualInvestmentRectTextView.setText(MainActivity.currencyFormatter.format(farmerCrop.ActualInvestment));
+
+        if(farmerCrop.EstimateIncome >= farmerCrop.ActualInvestment)
+        {
+            LossTextView.setVisibility(View.GONE);
+            ProfitTextView.setVisibility(View.VISIBLE);
+            ProfitValueTextView.setText(String.valueOf(farmerCrop.EstimateIncome - farmerCrop.ActualInvestment));
+        }
+        else
+        {
+            LossTextView.setVisibility(View.VISIBLE);
+            ProfitTextView.setVisibility(View.GONE);
+            ProfitValueTextView.setText(String.valueOf(farmerCrop.ActualInvestment - farmerCrop.EstimateIncome));
+        }
+
+
 
         double income = farmerCrop.EstimateIncome;
 
@@ -310,7 +163,7 @@ public class CropDetail extends Activity {
         }
 
 
-        TotalAmountTextView.setText(MainActivity.formatter.format(totalAmount));
+        TotalAmountTextView.setText(MainActivity.currencyFormatter.format(totalAmount));
         //View view = findViewById(R.id.activity_crop_detail);
         DrawNetIncomeGraph();
     }
@@ -327,6 +180,13 @@ public class CropDetail extends Activity {
     public void OnEditButtonClick(View view)
     {
         Intent I = new Intent(this, AddCrop.class);
+        I.putExtra("farmerCropId", farmerCropId);
+        startActivity(I);
+    }
+
+    public void onYieldDoneClick(View view)
+    {
+        Intent I = new Intent(this, Actuals.class);
         I.putExtra("farmerCropId", farmerCropId);
         startActivity(I);
     }

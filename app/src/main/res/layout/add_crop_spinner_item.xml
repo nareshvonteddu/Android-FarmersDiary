@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/spTvCropName"
         android:text="test"
-        android:paddingRight="40dp"/>
+        android:paddingRight="40dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 </LinearLayout>

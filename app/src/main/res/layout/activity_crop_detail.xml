@@ -63,15 +63,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/estimateInvestment"
             android:layout_marginLeft="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="0.0"
             android:layout_marginLeft="5dp"
             android:textSize="10dp"
@@ -97,7 +96,8 @@
             android:text="@string/Investment"
             android:id="@+id/textView7"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp" />
+            android:layout_marginLeft="4dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,7 +105,18 @@
             android:text="0.0"
             android:id="@+id/investmentTotalAmountText"
             android:layout_alignTop="@+id/textView7"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -125,16 +136,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/actualInvestment"
                 android:textColor="@android:color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="0.0"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/actualInvestmentRectTextView"
@@ -156,16 +165,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/estimateIncome"
                 android:textColor="@android:color/black" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="0.0"
                 android:layout_marginLeft="5dp"
                 android:id="@+id/estimateIncomeRectTextView"
@@ -184,225 +191,67 @@
     </RelativeLayout>
 
 
-
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/switchYieldDone"
-        android:layout_below="@id/estimateChartLayout"
-        android:layout_marginLeft="5dp"
-        android:text="@string/YieldDoneSwitchLabel" />
-
-
-    <LinearLayout
+    <LinearLayout android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@id/switchYieldDone"
-        android:layout_margin="10dp"
-        android:visibility="invisible"
-        android:id="@+id/actualsLayout">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/ActualLabel"
-            android:id="@+id/cropDetailActualHeader"
-            android:background="@color/background_material_dark"
-            android:textColor="@android:color/white" />
-
-        <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/estimateProfitLayout"
         android:layout_below="@id/estimateChartLayout"
-        android:columnCount="3"
-        android:rowCount="4"
-        android:id="@+id/cropDetailGridLayout">
+        android:layout_marginLeft="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ActualYield"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_marginTop="20dp" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/estimateProfitTextView"
+            android:textColor="@android:color/black"
+            android:text="@string/ProfitText"
+            android:visibility="visible"/>
 
-        <LinearLayout android:layout_column="1" android:layout_row="0"
-            android:layout_width="fill_parent" android:layout_columnSpan="2">
-        <EditText
-            android:layout_width="100dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/actualYieldEditText"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:text="0.00"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/estimateLossTextView"
+            android:textColor="@android:color/black"
+            android:text="@string/LossText"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:id="@+id/estimateProfitValueTextView"
             android:layout_marginLeft="5dp"/>
 
-        <Spinner
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:id="@+id/actualYieldUnitsSpinner"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentRight="true"
-            android:layout_row="0"
-            android:layout_column="2"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/actualYieldConvertionTextView"
-            android:layout_below="@+id/actualYieldLayout"
-            android:layout_marginLeft="5dp"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_marginTop="-10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/actualPrice"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_marginTop="22dp" />
-
-        <LinearLayout android:layout_column="1" android:layout_row="2"
-            android:layout_width="fill_parent" android:layout_columnSpan="2">
-        <EditText
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/actualPriceEditText"
-            android:text="0.00"
-            android:layout_marginLeft="5dp"
-            android:numeric="decimal"
-            android:layout_row="2"
-            android:layout_column="1"
-            android:layout_marginTop="5dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/actualPriceUnitsTextView"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentRight="true"
-            android:text="/unit"
-            android:layout_marginLeft="3dp"
-            android:layout_row="2"
-            android:layout_column="2"/>
-        </LinearLayout>
-
-        <TextView android:id="@+id/actualIncomeLabel"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/ActualIncome"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_marginTop="10dp"/>
-
-        <EditText
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/actualIncomeEditText"
-            android:layout_row="3"
-            android:layout_column="1"
-            android:editable="false"
-            android:text="0.00"
-            android:layout_marginLeft="5dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Rs"
-            android:id="@+id/rsTextView"
-            android:layout_row="3"
-            android:layout_column="2"
-            android:layout_gravity="center_vertical" />
-
-        </GridLayout>
-
-        <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cropDetailGridLayout"
-        android:layout_marginTop="25dp"
-        android:id="@+id/actualChartLayout">
-
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/actualActualInvestmentTextLayout">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
-                android:text="@string/actualInvestment"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
-                android:text="0.0"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/actualActualInvestmentRectTextView"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <LinearLayout android:orientation="horizontal"
-            android:layout_height="25dp"
-            android:id="@+id/actualInvestmentRect"
-            android:layout_width="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_below="@+id/actualActualInvestmentTextLayout"></LinearLayout>
-
-        <LinearLayout android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/actualIncomeTextLayout"
-            android:layout_below="@+id/actualInvestmentRect">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
-                android:text="@string/ActualIncome"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="10dp"
-                android:text="0.0"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/actualIncomeRectTextView"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <LinearLayout android:orientation="horizontal"
-            android:layout_height="25dp"
-            android:id="@+id/actualIncomeRect"
-            android:layout_width="match_parent"
-            android:layout_gravity="top"
-            android:layout_below="@+id/actualIncomeTextLayout">
-
-        </LinearLayout>
-
-        </RelativeLayout>
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/estimateProfitLayout"
+        android:background="@drawable/farmer_crop_listitem_notdone_background"
+        android:layout_margin="10dp"
+        android:onClick="onYieldDoneClick">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/YieldDoneSwitchLabel"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+    </RelativeLayout>
+
+
 
     <ProgressBar
         android:layout_width="wrap_content"

@@ -100,7 +100,7 @@ public class LoginActivity extends Activity
         {
             Logger.getAnonymousLogger().log(Level.ALL, ex.toString());
         }
-        if(!mPhoneNumber.equals(""))
+        if(mPhoneNumber != null && !mPhoneNumber.equals(""))
         {
             mPhoneNumber = mPhoneNumber.substring(1);
             phoneNbrText.setText(mPhoneNumber);

@@ -2,15 +2,11 @@ package vnr.farmersdiary;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,7 +40,7 @@ public class InvestmentsItemAdapter extends ArrayAdapter<Investment>
             TextView investmentAmountTextView = (TextView) v.findViewById(R.id.investmentAmountText);
 
             if(investmentTypeTextView != null) investmentTypeTextView.setText(investment.InvestmentType);
-            if(investmentAmountTextView != null) investmentAmountTextView.setText(MainActivity.formatter.format(investment.Amount));
+            if(investmentAmountTextView != null) investmentAmountTextView.setText(MainActivity.currencyFormatter.format(investment.Amount));
         }
 
         return v;
