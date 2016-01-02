@@ -326,11 +326,13 @@ public final class MobileServiceDataLayer
                     if(languageCode.equals(""))
                     {
                        // MobileServiceTable<Crop> table =  mClient.getTable(Crop.class);
+                        cropsTable.pull(mPullCropsQuery).get();
                         resultCrop = cropsTable.read(mPullCropsQuery).get();
                     }
                     else
                     {
                        // MobileServiceTable<CropRegional> table = mClient.getTable(CropRegional.class);
+                        cropsRegionalTable.pull(mPullCropsQuery).get();
                         resultCropRegional = cropsRegionalTable.read(mPullCropsQuery).get();
                     }
 
@@ -342,20 +344,31 @@ public final class MobileServiceDataLayer
                     final MobileServiceList<Crop> finalResultCrop = resultCrop;
                     final MobileServiceList<CropRegional> finalResultCropRegional = resultCropRegional;
 
+
+
                     ((farmerCrops) context).runOnUiThread(new Runnable() {
+
 
                         @Override
                         public void run() {
-                            if (finalResultCrop != null) {
-                                for (int i = 0; i < finalResultCrop.toArray().length; i++) {
+
+                            if (finalResultCrop != null)
+                            {
+                                Cache.CropRegionalCache.clear();
+                                for (int i = 0; i < finalResultCrop.toArray().length; i++)
+                                {
                                     CropRegional cropRegional = new CropRegional();
                                     cropRegional.Id = ((Crop) finalResultCrop.toArray()[i]).Id;
                                     cropRegional.Crop_Id = ((Crop) finalResultCrop.toArray()[i]).Crop_Id;
                                     cropRegional.Value = ((Crop) finalResultCrop.toArray()[i]).Value;
                                     Cache.CropRegionalCache.add(cropRegional);
                                 }
-                            } else if (finalResultCropRegional != null) {
-                                for (int i = 0; i < finalResultCropRegional.toArray().length; i++) {
+                            }
+                            else if (finalResultCropRegional != null)
+                            {
+                                Cache.CropRegionalCache.clear();
+                                for (int i = 0; i < finalResultCropRegional.toArray().length; i++)
+                                {
                                     Cache.CropRegionalCache.add((CropRegional) finalResultCropRegional.toArray()[i]);
                                 }
                             }

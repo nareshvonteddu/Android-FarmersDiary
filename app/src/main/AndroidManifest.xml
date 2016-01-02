@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vnr.farmersdiary"
-    android:versionCode="4"
+    android:versionCode="6"
     android:versionName="1.1">
 
-    <compatible-screens>
-        <!-- all small size screens -->
+    <!--<compatible-screens>
+        &lt;!&ndash; all small size screens &ndash;&gt;
         <screen android:screenSize="small" android:screenDensity="ldpi" />
         <screen android:screenSize="small" android:screenDensity="mdpi" />
         <screen android:screenSize="small" android:screenDensity="hdpi" />
         <screen android:screenSize="small" android:screenDensity="xhdpi" />
-        <!-- all normal size screens -->
+        &lt;!&ndash; all normal size screens &ndash;&gt;
         <screen android:screenSize="normal" android:screenDensity="ldpi" />
         <screen android:screenSize="normal" android:screenDensity="mdpi" />
         <screen android:screenSize="normal" android:screenDensity="hdpi" />
         <screen android:screenSize="normal" android:screenDensity="xhdpi" />
-    </compatible-screens>
+        &lt;!&ndash; all large size screens &ndash;&gt;
+        <screen android:screenSize="large" android:screenDensity="ldpi" />
+        <screen android:screenSize="large" android:screenDensity="mdpi" />
+        <screen android:screenSize="large" android:screenDensity="hdpi" />
+        <screen android:screenSize="large" android:screenDensity="xhdpi" />
+    </compatible-screens>-->
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />

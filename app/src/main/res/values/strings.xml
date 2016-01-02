@@ -5,7 +5,6 @@
     <string name="action_settings" translatable="false">Settings</string>
     <string name="hintName">Name</string>
     <string name="hintPhone">Phone</string>
-    <string name="done">Done</string>
     <string name="title_activity_crops" translatable="false">Crops</string>
     <string name="title_activity_farmer_crops" translatable="false">farmerCrops</string>
     <string name="title_activity_add_crop" translatable="false">AddCrop</string>
@@ -19,7 +18,7 @@
     <string-array name="units_array">
         <item>Kilo</item>
         <item>Quintal</item>
-        <item>Ton</item>
+        <item>Tonne</item>
     </string-array>
     <string name="title_activity_crop_detail" translatable="false">CropDetail</string>
     <string name="title_activity_investments" translatable="false">Investments</string>
@@ -27,7 +26,7 @@
     <string name="title_activity_add_edit_investment" translatable="false">AddEditInvestment</string>
     <string name="investment_type_label">Investment Type</string>
     <string-array name="investment_array">
-        <item>Human Resource</item>
+        <item>Human Labor</item>
         <item>Pesticides</item>
         <item>Fertilizers</item>
         <item>Machines</item>
@@ -43,12 +42,13 @@
     <string name="actualPrice">Price</string>
     <string name="ActualIncome">Income</string>
     <string name="ActualLabel" >Actuals</string>
-    <string name="YieldDoneSwitchLabel">Yield Done</string>
+    <string name="YieldDoneSwitchLabel">Yield Details</string>
     <string name="ProfitText">Profit</string>
     <string name="LossText">Loss</string>
     <string name="IncomeText">Income</string>
     <string-array name="languages_array" translatable="false">
         <item id="@+id/action_english">English</item>
         <item id="@+id/action_telugu">తెలుగు</item>
+        <item id="@+id/action_hindi">हिंदी</item>
     </string-array>
 </resources>

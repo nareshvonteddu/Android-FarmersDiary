@@ -167,7 +167,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/estimateIncome"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:id="@+id/estimateIncomeLabel"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -232,7 +233,8 @@
         android:layout_below="@id/estimateProfitLayout"
         android:background="@drawable/farmer_crop_listitem_notdone_background"
         android:layout_margin="10dp"
-        android:onClick="onYieldDoneClick">
+        android:onClick="onYieldDoneClick"
+        android:id="@+id/yieldDoneLayout">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -250,8 +252,6 @@
             android:layout_marginRight="4dp"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
     </RelativeLayout>
-
-
 
     <ProgressBar
         android:layout_width="wrap_content"

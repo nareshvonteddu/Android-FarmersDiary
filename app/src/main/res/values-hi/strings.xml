@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hintName">नाम</string>
+    <string name="hintPhone">फ़ोन  </string>
+    <string name="EstimatesHeader">अंदाज़</string>
+    <string name="YieldDate">उपज तारीख</string>
+    <string name="Investment">निवेश</string>
+    <string name="Yield">उपज</string>
+    <string name="AcresLable">एकड़ जमीन</string>
+    <string name="SowingDate">बुवाई की तारीख</string>
+    <string-array name="units_array">
+        <item>किलो</item>
+        <item>क्विंटल</item>
+        <item>टन</item>
+    </string-array>
+    <string name="investment_type_label">निवेश के प्रकार</string>
+    <string-array name="investment_array">
+        <item>मानव श्रम</item>
+        <item>कीटनाशकों</item>
+        <item>उर्वरकों</item>
+        <item>मशीनें</item>
+        <item>अन्य</item>
+    </string-array>
+    <string name="amount_label">रकम</string>
+    <string name="price_label">कीमत</string>
+    <string name="estimateInvestment">अंदाज़ निवेश</string>
+    <string name="actualInvestment">निवेश</string>
+    <string name="estimateIncome">अंदाज़ कमाई</string>
+    <string name="ActualYield">उपज</string>
+    <string name="actualPrice">कीमत</string>
+    <string name="ActualIncome">कमाई</string>
+    <string name="ActualLabel">असल</string>
+    <string name="YieldDoneSwitchLabel">उपज विवरण</string>
+    <string name="ProfitText">लाभ</string>
+    <string name="LossText">नुकसान</string>
+    <string name="IncomeText">कमाई</string>
+</resources>

@@ -2,8 +2,6 @@
 <resources>
     <string name="hintName">పేరు</string>
     <string name="hintPhone">ఫోన్  </string>
-    <string name="done">పూర్తయింది </string>
-    <string name="CropType">రకం</string>
     <string name="EstimatesHeader">అంచనాలు</string>
     <string name="YieldDate">దిగుబడి తేదీ</string>
     <string name="Investment">పెట్టుబడి</string>
@@ -32,7 +30,7 @@
     <string name="actualPrice">ధర</string>
     <string name="ActualIncome">ఆదాయం</string>
     <string name="ActualLabel">అసలు</string>
-    <string name="YieldDoneSwitchLabel">దిగుబడి పూర్తి</string>
+    <string name="YieldDoneSwitchLabel">దిగుబడి వివరాలు</string>
     <string name="ProfitText">లాభం</string>
     <string name="LossText">నష్టం</string>
     <string name="IncomeText">ఆదాయం</string>

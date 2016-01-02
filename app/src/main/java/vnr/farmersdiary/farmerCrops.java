@@ -52,6 +52,19 @@ public class farmerCrops extends Activity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Cache.CropRegionalCache.isEmpty()) {
+            //MobileServiceDataLayer.syncDBChanges(this);
+            MobileServiceDataLayer.GetCrops(this);
+        }
+        else if(!Cache.FarmerCropUIArrayListCache.isEmpty())
+        {
+            this.farmerCropListView.setAdapter(new FarmerCropItemAdapter(this,android.R.layout.simple_list_item_1,Cache.FarmerCropUIArrayListCache));
+        }
+    }
+
     public void onAddCropClick(View view)
     {
         //MobileServiceDataLayer.GetCrops(this);

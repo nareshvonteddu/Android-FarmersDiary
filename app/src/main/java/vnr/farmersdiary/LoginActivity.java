@@ -61,13 +61,14 @@ public class LoginActivity extends Activity
                 SharedPreferences loginPreferences = getSharedPreferences(SPFStrings.SPFNAME.getValue(),
                         Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = loginPreferences.edit();
+                String hint;
                 switch (selectedItem)
                 {
                     case "English":
                         if(!loginPreferences.getString(SPFStrings.LANGUAGE.getValue(), "").equals(""))
                         {
                             setLocale("en");
-                            String hint = getResources().getString(R.string.hintPhone);
+                            hint = getResources().getString(R.string.hintPhone);
                             phoneNbrText.setHint(hint);
                             editor.putString(SPFStrings.LANGUAGE.getValue(), "");
                             editor.commit();
@@ -76,9 +77,16 @@ public class LoginActivity extends Activity
 
                     case "తెలుగు":
                         setLocale("te");
-                        String hint = getResources().getString(R.string.hintPhone);
+                        hint = getResources().getString(R.string.hintPhone);
                         phoneNbrText.setHint(hint);
                         editor.putString(SPFStrings.LANGUAGE.getValue(), "te");
+                        editor.commit();
+                        break;
+                    case "हिंदी":
+                        setLocale("hi");
+                        hint = getResources().getString(R.string.hintPhone);
+                        phoneNbrText.setHint(hint);
+                        editor.putString(SPFStrings.LANGUAGE.getValue(), "hi");
                         editor.commit();
                         break;
                 }

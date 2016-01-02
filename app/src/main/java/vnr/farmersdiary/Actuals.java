@@ -294,6 +294,7 @@ public class Actuals extends Activity {
         }
         farmerCrop.ActualPrice = Double.valueOf(ActualPriceEditText.getText().toString());
         farmerCrop.ActualIncome = Double.valueOf(ActualIncomeEditText.getText().toString());
+        farmerCrop.IsYieldDone = true;
 
         MobileServiceDataLayer.SaveActuals(farmerCrop,this);
     }

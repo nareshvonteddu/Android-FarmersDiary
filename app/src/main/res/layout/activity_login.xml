@@ -72,7 +72,6 @@
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:text="@string/done"
             android:id="@+id/DoneButton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"

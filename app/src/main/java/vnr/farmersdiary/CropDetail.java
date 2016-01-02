@@ -26,6 +26,7 @@ public class CropDetail extends Activity {
     public TextView ProfitTextView;
     public TextView LossTextView;
     public TextView ProfitValueTextView;
+    public TextView EstimateIncomeLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class CropDetail extends Activity {
         ProfitTextView = (TextView) findViewById(R.id.estimateProfitTextView);
         LossTextView = (TextView) findViewById(R.id.estimateLossTextView);
         ProfitValueTextView = (TextView) findViewById(R.id.estimateProfitValueTextView);
+        EstimateIncomeLabel = (TextView) findViewById(R.id.estimateIncomeLabel);
 
         Bundle params = getIntent().getExtras();
         if (params != null) {
@@ -83,26 +85,31 @@ public class CropDetail extends Activity {
 
         if(farmerCrop == null) return;
 
+        double income = farmerCrop.EstimateIncome;
+        if(farmerCrop.IsYieldDone)
+        {
+            income = farmerCrop.ActualIncome;
+            EstimateIncomeLabel.setText(getText(R.string.ActualIncome));
+        }
+
         EstimateInvestmentTextView.setText(MainActivity.currencyFormatter.format(farmerCrop.EstimateInvestment));
-        EstimateIncomeRectTextView.setText(MainActivity.currencyFormatter.format(farmerCrop.EstimateIncome));
+        EstimateIncomeRectTextView.setText(MainActivity.currencyFormatter.format(income));
         ActualInvestmentRectTextView.setText(MainActivity.currencyFormatter.format(farmerCrop.ActualInvestment));
 
-        if(farmerCrop.EstimateIncome >= farmerCrop.ActualInvestment)
+        if(income >= farmerCrop.ActualInvestment)
         {
             LossTextView.setVisibility(View.GONE);
             ProfitTextView.setVisibility(View.VISIBLE);
-            ProfitValueTextView.setText(String.valueOf(farmerCrop.EstimateIncome - farmerCrop.ActualInvestment));
+            ProfitValueTextView.setText(String.valueOf(income - farmerCrop.ActualInvestment));
         }
         else
         {
             LossTextView.setVisibility(View.VISIBLE);
             ProfitTextView.setVisibility(View.GONE);
-            ProfitValueTextView.setText(String.valueOf(farmerCrop.ActualInvestment - farmerCrop.EstimateIncome));
+            ProfitValueTextView.setText(String.valueOf(farmerCrop.ActualInvestment - income));
         }
 
 
-
-        double income = farmerCrop.EstimateIncome;
 
         if(farmerCrop.ActualInvestment >= income
                 && farmerCrop.ActualInvestment != 0)
