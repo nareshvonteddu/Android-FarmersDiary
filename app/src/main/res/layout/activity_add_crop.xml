@@ -13,7 +13,7 @@
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:id="@+id/cropSpinner"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
