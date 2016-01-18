@@ -13,4 +13,5 @@ public class Investment
     public Date InvestmentDate;
     public String FarmerCropId;
     public String FarmerPhoneNbr;
+    public int investmentid;
 }

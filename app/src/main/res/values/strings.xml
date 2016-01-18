@@ -8,7 +8,6 @@
     <string name="title_activity_crops" translatable="false">Crops</string>
     <string name="title_activity_farmer_crops" translatable="false">farmerCrops</string>
     <string name="title_activity_add_crop" translatable="false">AddCrop</string>
-    <string name="CropType">Type</string>
     <string name="EstimatesHeader">Estimates</string>
     <string name="YieldDate">Yield Date</string>
     <string name="Investment">Investment</string>

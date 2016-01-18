@@ -39,7 +39,9 @@ public class InvestmentsItemAdapter extends ArrayAdapter<Investment>
             TextView investmentTypeTextView = (TextView)v.findViewById(R.id.investmentTypeText);
             TextView investmentAmountTextView = (TextView) v.findViewById(R.id.investmentAmountText);
 
-            if(investmentTypeTextView != null) investmentTypeTextView.setText(investment.InvestmentType);
+           String investmentText = (String)getContext().getResources().obtainTypedArray(R.array.investment_array).getText(investment.investmentid);
+
+            if(investmentTypeTextView != null) investmentTypeTextView.setText(investmentText);//(investment.InvestmentType);
             if(investmentAmountTextView != null) investmentAmountTextView.setText(MainActivity.currencyFormatter.format(investment.Amount));
         }
 

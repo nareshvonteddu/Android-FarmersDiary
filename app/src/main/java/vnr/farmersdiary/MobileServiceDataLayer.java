@@ -12,6 +12,7 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.Query;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.microsoft.windowsazure.mobileservices.table.sync.MobileServiceSyncContext;
 import com.microsoft.windowsazure.mobileservices.table.sync.MobileServiceSyncTable;
 import com.microsoft.windowsazure.mobileservices.table.sync.localstore.ColumnDataType;
@@ -108,7 +109,7 @@ public final class MobileServiceDataLayer
                 Context.MODE_PRIVATE);
         String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
         mPullAllInvestmentsQuery = mClient.getTable(Investment.class).where().field("FarmerPhoneNbr").eq(phoneNbr)
-                .select("id", "Amount", "InvestmentType", "InvestmentDate", "FarmerCropId", "FarmerPhoneNbr");
+                .select("id", "Amount", "InvestmentType", "InvestmentDate", "FarmerCropId", "FarmerPhoneNbr","investmentid");
     }
 
     private static void DefineCropsTable() throws MobileServiceLocalStoreException
@@ -166,6 +167,7 @@ public final class MobileServiceDataLayer
         tableDefinition.put("InvestmentDate", ColumnDataType.Date);
         tableDefinition.put("FarmerCropId", ColumnDataType.String);
         tableDefinition.put("FarmerPhoneNbr",ColumnDataType.String);
+        tableDefinition.put("investmentid", ColumnDataType.Integer);
 
         localStore.defineTable("Investment", tableDefinition);
     }
@@ -177,12 +179,12 @@ public final class MobileServiceDataLayer
         String languageCode = loginPreferences.getString(SPFStrings.LANGUAGE.getValue(), "");
         if(languageCode.equals(""))
         {
-            mPullCropsQuery = mClient.getTable(Crop.class).where().select("Crop_Id", "Value");
+            mPullCropsQuery = mClient.getTable(Crop.class).where().select("Crop_Id", "Value").orderBy("Crop_Id", QueryOrder.Ascending);
         }
         else
         {
             mPullCropsQuery = mClient.getTable(CropRegional.class).where().field("Language_Code").eq(languageCode)
-                    .select("Crop_Id", "Value");
+                    .select("Crop_Id", "Value").orderBy("Crop_Id", QueryOrder.Ascending);
         }
     }
 
@@ -403,6 +405,7 @@ public final class MobileServiceDataLayer
                                         return lhs.CropDate.compareTo(rhs.CropDate);
                                     }
                                 });
+
                             }
                             //((AddCrop)context).cropSpinner.setAdapter(new AddCropSpinnerItemAdapter(((AddCrop) context), android.R.layout.simple_dropdown_item_1line, Cache.CropRegionalCache));
                             ((farmerCrops) context).farmerCropListView.setAdapter(new FarmerCropItemAdapter(context, android.R.layout.simple_list_item_1, Cache.FarmerCropUIArrayListCache));

@@ -28,6 +28,7 @@ public class InvestmentsDetail extends Activity {
     public ListView investmentListView;
     public TextView totalAmounttextView;
     public ProgressBar investmentsProgressBar;
+    private int investmentTypeId = 0;
 
     ImageButton saveInvestmentButton;
     ImageButton deleteInvestmentButton;
@@ -72,6 +73,19 @@ public class InvestmentsDetail extends Activity {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 investmentTypeSpinner.setAdapter(adapter);
 
+                investmentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        investmentTypeId = position;
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
                 editInvestmentText = (EditText) dialog.findViewById(R.id.editInvestmentAmountText);
 
                 saveInvestmentButton = (ImageButton) dialog.findViewById(R.id.saveInvestmentButton);
@@ -80,9 +94,10 @@ public class InvestmentsDetail extends Activity {
                 saveInvestmentButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clickedInvestment.InvestmentType = investmentTypeSpinner.getSelectedItem().toString();
+                        clickedInvestment.InvestmentType =  (String)getResources().obtainTypedArray(R.array.investment_array).getText(investmentTypeId); //investmentTypeSpinner.getSelectedItem().toString();
                         clickedInvestment.Amount = Double.valueOf(editInvestmentText.getText().toString());
                         clickedInvestment.FarmerCropId = farmerCropId;
+                        clickedInvestment.investmentid = investmentTypeId;
                         MobileServiceDataLayer.UpdateInvestment(clickedInvestment, view.getContext());
                         dialog.dismiss();
                     }
@@ -119,6 +134,7 @@ public class InvestmentsDetail extends Activity {
 
     public void onAddInvestmentClick(final View view)
     {
+
         final Investment newInvestment = new Investment();
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_add_edit_investment);
@@ -129,6 +145,19 @@ public class InvestmentsDetail extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         investmentTypeSpinner.setAdapter(adapter);
 
+        investmentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                investmentTypeId = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         editInvestmentText = (EditText) dialog.findViewById(R.id.editInvestmentAmountText);
 
         saveInvestmentButton = (ImageButton) dialog.findViewById(R.id.saveInvestmentButton);
@@ -137,9 +166,10 @@ public class InvestmentsDetail extends Activity {
         saveInvestmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newInvestment.InvestmentType = investmentTypeSpinner.getSelectedItem().toString();
+                newInvestment.InvestmentType = (String)getResources().obtainTypedArray(R.array.investment_array).getText(investmentTypeId); //investmentTypeSpinner.getSelectedItem().toString();
                 newInvestment.Amount = Double.valueOf(editInvestmentText.getText().toString());
                 newInvestment.FarmerCropId = farmerCropId;
+                newInvestment.investmentid = investmentTypeId;
                 SharedPreferences loginPreferences = view.getContext().getSharedPreferences(SPFStrings.SPFNAME.getValue(),
                         Context.MODE_PRIVATE);
                 String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
