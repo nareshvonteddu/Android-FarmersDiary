@@ -319,7 +319,7 @@ public final class MobileServiceDataLayer
             {
                 try
                 {
-                    syncDBChanges(context);
+                    //syncDBChanges(context);
                     SharedPreferences loginPreferences = context.getSharedPreferences(SPFStrings.SPFNAME.getValue(),
                             Context.MODE_PRIVATE);
                     String languageCode = loginPreferences.getString(SPFStrings.LANGUAGE.getValue(), "");
@@ -329,13 +329,17 @@ public final class MobileServiceDataLayer
                     if(languageCode.equals(""))
                     {
                        // MobileServiceTable<Crop> table =  mClient.getTable(Crop.class);
-                       // cropsTable.pull(mPullCropsQuery).get();
+                        if (isNetworkAvailable(context)) {
+                            cropsTable.pull(mPullCropsQuery).get();
+                        }
                         resultCrop = cropsTable.read(mPullCropsQuery).get();
                     }
                     else
                     {
                        // MobileServiceTable<CropRegional> table = mClient.getTable(CropRegional.class);
-                       // cropsRegionalTable.pull(mPullCropsQuery).get();
+                        if (isNetworkAvailable(context)) {
+                            cropsRegionalTable.pull(mPullCropsQuery).get();
+                        }
                         resultCropRegional = cropsRegionalTable.read(mPullCropsQuery).get();
                     }
 
