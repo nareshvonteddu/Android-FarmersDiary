@@ -8,7 +8,7 @@ android {
         applicationId "vnr.farmersdiary"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 7
+        versionCode 9
         versionName "1.1"
     }
     buildTypes {

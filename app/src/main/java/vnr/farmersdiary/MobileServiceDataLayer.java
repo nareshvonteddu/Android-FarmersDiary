@@ -328,18 +328,16 @@ public final class MobileServiceDataLayer
                     ConstructGetCropsQuery(context);
                     if(languageCode.equals(""))
                     {
-                       // MobileServiceTable<Crop> table =  mClient.getTable(Crop.class);
-                        if (isNetworkAvailable(context)) {
-                            cropsTable.pull(mPullCropsQuery).get();
-                        }
+//                        if (isNetworkAvailable(context)) {
+//                            cropsTable.pull(mPullCropsQuery).get();
+//                        }
                         resultCrop = cropsTable.read(mPullCropsQuery).get();
                     }
                     else
                     {
-                       // MobileServiceTable<CropRegional> table = mClient.getTable(CropRegional.class);
-                        if (isNetworkAvailable(context)) {
-                            cropsRegionalTable.pull(mPullCropsQuery).get();
-                        }
+//                        if (isNetworkAvailable(context)) {
+//                            cropsRegionalTable.pull(mPullCropsQuery).get();
+//                        }
                         resultCropRegional = cropsRegionalTable.read(mPullCropsQuery).get();
                     }
 
