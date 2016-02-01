@@ -18,16 +18,12 @@ import java.util.ArrayList;
 public class farmerCrops extends Activity {
 
     public ListView farmerCropListView;
-    public ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_crops);
-        progressBar = (ProgressBar) findViewById(R.id.farmerCropsProgres);
         farmerCropListView = (ListView) findViewById(R.id.farmerCropListView);
-
-        progressBar.setVisibility(View.GONE);
 
         if(Cache.CropRegionalCache.isEmpty()) {
             //MobileServiceDataLayer.syncDBChanges(this);

@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ public class CropDetail extends Activity {
 
     public String farmerCropId;
     public TextView TotalAmountTextView;
-    public ProgressBar CropDetailProgressBar;
     public TextView EstimateInvestmentTextView;
     public TextView ActualInvestmentRectTextView;
     public TextView EstimateIncomeRectTextView;
@@ -34,7 +34,6 @@ public class CropDetail extends Activity {
         setContentView(R.layout.activity_crop_detail);
 
         TotalAmountTextView = (TextView) findViewById(R.id.investmentTotalAmountText);
-        CropDetailProgressBar = (ProgressBar) findViewById(R.id.cropDetailProgressBar);
         EstimateInvestmentTextView = (TextView) findViewById(R.id.estimateInvestmentTextView);
         ActualInvestmentRectTextView = (TextView) findViewById(R.id.actualInvestmentRectTextView);
         EstimateIncomeRectTextView = (TextView) findViewById(R.id.estimateIncomeRectTextView);
@@ -51,8 +50,6 @@ public class CropDetail extends Activity {
             DetailCropNameTextView.setText(params.getString("farmerCropName"));
             DetailAcresTextView.setText(params.getString("farmerCropAcres"));
         }
-
-        CropDetailProgressBar.setVisibility(View.GONE);
 
         MobileServiceDataLayer.GetCropInvestments(this);
     }
@@ -196,6 +193,22 @@ public class CropDetail extends Activity {
         Intent I = new Intent(this, Actuals.class);
         I.putExtra("farmerCropId", farmerCropId);
         startActivity(I);
+    }
+
+    public void onDeleteCropButtonClick(View view)
+    {
+        FarmerCrop editingFarmerCrop = null;
+        for (int i = 0; i <= Cache.FarmerCropsCache.toArray().length; i++)
+        {
+            if(farmerCropId.equals(Cache.FarmerCropsCache.get(i).id))
+            {
+                editingFarmerCrop = Cache.FarmerCropsCache.get(i);
+                break;
+            }
+        }
+        if(editingFarmerCrop != null) {
+            MobileServiceDataLayer.DeleteFarmerCrop(editingFarmerCrop, this);
+        }
     }
 
 //    @Override

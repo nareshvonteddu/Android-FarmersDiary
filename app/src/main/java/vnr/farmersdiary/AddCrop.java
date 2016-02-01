@@ -34,7 +34,6 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
     TextView yieldDate;
     EditText acresEditText;
     TextView sowDate;
-    public ProgressBar progressBar;
     public FarmerCrop farmerCrop;
     public EditText investment;
     private int converterPosition;
@@ -59,7 +58,6 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
         yieldDate = (TextView) findViewById(R.id.yieldDate);
         acresEditText = (EditText) findViewById(R.id.acresEditText);
         sowDate = (TextView) findViewById(R.id.sowDate);
-        progressBar = (ProgressBar) findViewById(R.id.addCropProgres);
         investment = (EditText) findViewById(R.id.investment);
         estimatePriceEditText = (EditText) findViewById(R.id.estimatePriceEditText);
         estimatePriceUnitTextView = (TextView) findViewById(R.id.estimatePriceUnitsTextView);
@@ -67,7 +65,6 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
 
         //estimatePriceEditText.addTextChangedListener(new DecimalFilter(estimateIncomeEditText,this));
 
-        progressBar.setVisibility(View.GONE);
         farmerCrop = new FarmerCrop();
         acresEditText.setText("1");
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -242,50 +239,81 @@ public class AddCrop extends Activity implements AdapterView.OnItemSelectedListe
 
     public void onDoneClick(View view)
     {
-
-        farmerCrop.Crop_Id = selectedCrop.Crop_Id;
-        farmerCrop.Acres = Double.valueOf(acresEditText.getText().toString());
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            farmerCrop.CropDate = dateFormat.parse(sowDate.getText().toString());
-        } catch (ParseException e) {
+
+            farmerCrop.Crop_Id = selectedCrop.Crop_Id;
+            if(!acresEditText.getText().toString().isEmpty()) {
+                farmerCrop.Acres = Double.valueOf(acresEditText.getText().toString());
+            }
+            else
+            {
+                farmerCrop.Acres = 0;
+            }
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                farmerCrop.CropDate = dateFormat.parse(sowDate.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(!investment.getText().toString().isEmpty()) {
+                farmerCrop.EstimateInvestment = Double.valueOf(investment.getText().toString());
+            }
+            else {
+                farmerCrop.EstimateInvestment = 0;
+            }
+
+            try {
+                farmerCrop.EstimateYieldDate = dateFormat.parse(yieldDate.getText().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            SharedPreferences loginPreferences = getSharedPreferences(SPFStrings.SPFNAME.getValue(),
+                    Context.MODE_PRIVATE);
+            String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(),"");
+            farmerCrop.FarmerPhoneNbr = phoneNbr;
+            farmerCrop.EstimateYieldUnitIndex = converterPosition;
+            if(!yieldEditText.getText().toString().isEmpty()) {
+                switch (converterPosition) {
+                    case 0:
+                        farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 1;
+                        break;
+                    case 1:
+                        farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 100;
+                        break;
+                    case 2:
+                        farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 1000;
+                        break;
+                }
+            }
+            if(!estimatePriceEditText.getText().toString().isEmpty()) {
+                farmerCrop.EstimatePrice = Double.valueOf(estimatePriceEditText.getText().toString());
+            }
+            else
+            {
+                farmerCrop.EstimatePrice = 0;
+            }
+            if(!estimateIncomeEditText.getText().toString().isEmpty()) {
+                farmerCrop.EstimateIncome = Double.valueOf(estimateIncomeEditText.getText().toString());
+            }
+            else
+            {
+                farmerCrop.EstimateIncome = 0;
+            }
+
+            if(isUpdate)
+            {
+                MobileServiceDataLayer.UpdateFarmerCrop(farmerCrop,this);
+            }
+            else
+            {
+                MobileServiceDataLayer.CreateFarmerCrop(farmerCrop, this);
+            }
+
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
-        }
-        farmerCrop.EstimateInvestment = Double.valueOf(investment.getText().toString());
-
-        try {
-            farmerCrop.EstimateYieldDate = dateFormat.parse(yieldDate.getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        SharedPreferences loginPreferences = getSharedPreferences(SPFStrings.SPFNAME.getValue(),
-                Context.MODE_PRIVATE);
-        String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(),"");
-        farmerCrop.FarmerPhoneNbr = phoneNbr;
-        farmerCrop.EstimateYieldUnitIndex = converterPosition;
-        switch (converterPosition)
-        {
-            case 0:
-                farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 1;
-                break;
-            case 1:
-                farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 100;
-                break;
-            case 2:
-                farmerCrop.EstimateYieldAmount = Double.valueOf(yieldEditText.getText().toString()) * 1000;
-                break;
-        }
-        farmerCrop.EstimatePrice = Double.valueOf(estimatePriceEditText.getText().toString());
-        farmerCrop.EstimateIncome = Double.valueOf(estimateIncomeEditText.getText().toString());
-
-        if(isUpdate)
-        {
-            MobileServiceDataLayer.UpdateFarmerCrop(farmerCrop,this);
-        }
-        else
-        {
-            MobileServiceDataLayer.CreateFarmerCrop(farmerCrop, this);
         }
     }
 

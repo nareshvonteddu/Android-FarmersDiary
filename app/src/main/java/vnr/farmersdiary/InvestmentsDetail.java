@@ -27,7 +27,6 @@ public class InvestmentsDetail extends Activity {
 
     public ListView investmentListView;
     public TextView totalAmounttextView;
-    public ProgressBar investmentsProgressBar;
     private int investmentTypeId = 0;
 
     ImageButton saveInvestmentButton;
@@ -44,7 +43,6 @@ public class InvestmentsDetail extends Activity {
 
         totalAmounttextView = (TextView) findViewById(R.id.investmentsDetailTotalText);
         investmentListView = (ListView) findViewById(R.id.investmentsListView);
-        investmentsProgressBar = (ProgressBar) findViewById(R.id.investmentsProgressBar);
 
         Bundle params = getIntent().getExtras();
         if(params != null)

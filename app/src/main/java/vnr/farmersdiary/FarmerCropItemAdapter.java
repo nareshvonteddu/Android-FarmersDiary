@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,13 +41,38 @@ public class FarmerCropItemAdapter extends ArrayAdapter<FarmerCropUI>
             LayoutInflater vi = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(R.layout.farmercroplistitem,null);
         }
+        FarmerCrop farmerCropDataItem = null;
         FarmerCropUI farmerCrop = farmerCrops.get(position);
+
         if(farmerCrop != null)
         {
             TextView nameTextView = (TextView)v.findViewById(R.id.tvCropName);
             TextView acresTextView = (TextView) v.findViewById(R.id.tvCropAcres);
             GridLayout layout = (GridLayout) v.findViewById(R.id.farmerListViewItemLayout);
             TextView plantedDatetextView = (TextView) v.findViewById(R.id.tvPlantedDate);
+            ImageView thumbImageView = (ImageView) v.findViewById(R.id.thumbImage);
+
+            for (int i = 0; i <= Cache.FarmerCropsCache.toArray().length; i++)
+            {
+                if(farmerCrop.id.equals(Cache.FarmerCropsCache.get(i).id))
+                {
+                    farmerCropDataItem = Cache.FarmerCropsCache.get(i);
+                    break;
+                }
+            }
+
+            if(farmerCropDataItem != null && farmerCropDataItem.IsYieldDone && (farmerCropDataItem.ActualIncome - farmerCropDataItem.ActualInvestment) > 0)
+            {
+                thumbImageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_thumb_up_black_24dp));
+            }
+            else if(farmerCropDataItem != null && farmerCropDataItem.IsYieldDone && (farmerCropDataItem.ActualIncome - farmerCropDataItem.ActualInvestment) <= 0)
+            {
+                thumbImageView.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_thumb_down_black_24dp));
+            }
+            else
+            {
+                thumbImageView.setVisibility(View.INVISIBLE);
+            }
 
             if(nameTextView != null) nameTextView.setText(farmerCrop.CropName);
             if(acresTextView != null) acresTextView.setText(Double.toString(farmerCrop.Acres));

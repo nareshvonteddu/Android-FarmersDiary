@@ -2,6 +2,7 @@ package vnr.farmersdiary;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,7 +51,6 @@ public class LoginActivity extends Activity implements ConnectionCallbacks, OnCo
     EditText nameText;
     EditText phoneNbrText;
     Button doneButton;
-    public ProgressBar loginProgressBar;
     Spinner languagesSpinner;
     protected Location mLastLocation;
     private AddressResultReceiver mResultReceiver;
@@ -67,7 +67,6 @@ public class LoginActivity extends Activity implements ConnectionCallbacks, OnCo
 
 
         phoneNbrText = (EditText) findViewById(R.id.PhoneNbrText);
-        loginProgressBar = (ProgressBar) findViewById(R.id.loginProgressBar);
         languagesSpinner = (Spinner) findViewById(R.id.languagesSpinner);
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -127,8 +126,6 @@ public class LoginActivity extends Activity implements ConnectionCallbacks, OnCo
             mPhoneNumber = mPhoneNumber.substring(1);
             phoneNbrText.setText(mPhoneNumber);
         }
-
-        loginProgressBar.setVisibility(View.GONE);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         //client = new GoogleApiClient.Builder(this).addApi(LocationServices.API).build();

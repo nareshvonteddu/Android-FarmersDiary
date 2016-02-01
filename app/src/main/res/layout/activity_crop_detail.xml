@@ -232,7 +232,9 @@
         android:layout_height="50dp"
         android:layout_below="@id/estimateProfitLayout"
         android:background="@drawable/farmer_crop_listitem_notdone_background"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
         android:onClick="onYieldDoneClick"
         android:id="@+id/yieldDoneLayout">
         <TextView
@@ -253,12 +255,22 @@
             android:textAppearance="?android:attr/textAppearanceLarge"/>
     </RelativeLayout>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cropDetailProgressBar"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_round_red_background"
+        android:src="@drawable/ic_delete_black_24dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:clickable="true"
+        android:scaleType="fitXY"
+        android:padding="5dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/deleteCropButton"
+        android:layout_below="@id/yieldDoneLayout"
+        android:layout_centerHorizontal="true"
+        android:onClick="onDeleteCropButtonClick" />
 
 </RelativeLayout>

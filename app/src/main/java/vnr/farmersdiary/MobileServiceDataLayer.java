@@ -1,5 +1,6 @@
 package vnr.farmersdiary;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -109,7 +110,7 @@ public final class MobileServiceDataLayer
                 Context.MODE_PRIVATE);
         String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
         mPullAllInvestmentsQuery = mClient.getTable(Investment.class).where().field("FarmerPhoneNbr").eq(phoneNbr)
-                .select("id", "Amount", "InvestmentType", "InvestmentDate", "FarmerCropId", "FarmerPhoneNbr","investmentid");
+                .select("id", "Amount", "InvestmentType", "InvestmentDate", "FarmerCropId", "FarmerPhoneNbr", "investmentid");
     }
 
     private static void DefineCropsTable() throws MobileServiceLocalStoreException
@@ -254,7 +255,7 @@ public final class MobileServiceDataLayer
 
     public static void CreateUser(final User user, final Context context) throws InterruptedException
     {
-        ((LoginActivity)context).loginProgressBar.setVisibility(View.VISIBLE);
+        final ProgressDialog pd = ProgressDialog.show(context,"Loading", "Loading...");
         new AsyncTask<Void,Void,Void>()
         {
 
@@ -285,7 +286,7 @@ public final class MobileServiceDataLayer
                                 editor.commit();
                                // String phoneNbr = loginPreferences.getString(SPFStrings.PHONENUMBER.getValue(), "");
 
-                                ((LoginActivity)context).loginProgressBar.setVisibility(View.GONE);
+                                pd.dismiss();
 
                                 syncDBChanges(context);
 
@@ -309,7 +310,7 @@ public final class MobileServiceDataLayer
     public static void GetCrops(final Context context)
     {
 
-        ((farmerCrops)context).progressBar.setVisibility(View.VISIBLE);
+        final ProgressDialog pd = ProgressDialog.show(context,"Loading", "Loading...");
         ((farmerCrops)context).farmerCropListView.setVisibility(View.GONE);
         new AsyncTask<Void, Void, Void>()
         {
@@ -411,7 +412,7 @@ public final class MobileServiceDataLayer
                             }
                             //((AddCrop)context).cropSpinner.setAdapter(new AddCropSpinnerItemAdapter(((AddCrop) context), android.R.layout.simple_dropdown_item_1line, Cache.CropRegionalCache));
                             ((farmerCrops) context).farmerCropListView.setAdapter(new FarmerCropItemAdapter(context, android.R.layout.simple_list_item_1, Cache.FarmerCropUIArrayListCache));
-                            ((farmerCrops) context).progressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                             ((farmerCrops) context).farmerCropListView.setVisibility(View.VISIBLE);
                         }
                     });
@@ -436,7 +437,8 @@ public final class MobileServiceDataLayer
 
     public static void CreateFarmerCrop(final FarmerCrop farmerCrop, final AddCrop addCrop) {
 
-        addCrop.progressBar.setVisibility(View.VISIBLE);
+
+        final ProgressDialog pd = ProgressDialog.show(addCrop,"Loading", "Loading...");
 
         new AsyncTask<Void, Void, Void>()
         {
@@ -457,7 +459,7 @@ public final class MobileServiceDataLayer
                     addCrop.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            addCrop.progressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                             Cache.FarmerCropsCache.clear();
                             for (int i = 0; i < resultFarmerCrop.toArray().length; i++) {
                                 Cache.FarmerCropsCache.add((FarmerCrop) resultFarmerCrop.toArray()[i]);
@@ -502,7 +504,7 @@ public final class MobileServiceDataLayer
                         @Override
                         public void run() {
 
-                            addCrop.progressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -514,7 +516,6 @@ public final class MobileServiceDataLayer
 
     public static void SaveActuals(final FarmerCrop farmerCrop, final Actuals actuals) {
 
-        //addCrop.progressBar.setVisibility(View.VISIBLE);
 
         new AsyncTask<Void, Void, Void>()
         {
@@ -590,7 +591,8 @@ public final class MobileServiceDataLayer
 
     public static void UpdateFarmerCrop(final FarmerCrop farmerCrop, final AddCrop addCrop) {
 
-        addCrop.progressBar.setVisibility(View.VISIBLE);
+
+        final ProgressDialog pd = ProgressDialog.show(addCrop,"Loading", "Loading...");
 
         new AsyncTask<Void, Void, Void>()
         {
@@ -611,7 +613,7 @@ public final class MobileServiceDataLayer
                     addCrop.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            addCrop.progressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                             Cache.FarmerCropsCache.clear();
                             for (int i = 0; i < resultFarmerCrop.toArray().length; i++) {
                                 Cache.FarmerCropsCache.add((FarmerCrop) resultFarmerCrop.toArray()[i]);
@@ -643,6 +645,7 @@ public final class MobileServiceDataLayer
                                 });
                             }
 
+                            pd.dismiss();
                             addCrop.finish();
                         }
                     });
@@ -654,7 +657,85 @@ public final class MobileServiceDataLayer
                         @Override
                         public void run() {
 
-                            addCrop.progressBar.setVisibility(View.GONE);
+                            pd.dismiss();
+                        }
+                    });
+                }
+                return null;
+            }
+        }.execute();
+
+    }
+
+    public static void DeleteFarmerCrop(final FarmerCrop farmerCrop, final CropDetail cropDetail) {
+
+
+        final ProgressDialog pd = ProgressDialog.show(cropDetail,"Loading", "Loading...");
+
+        new AsyncTask<Void, Void, Void>()
+        {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+
+                    tableFarmerCrop.delete(farmerCrop).get();
+
+                    syncDBChanges(cropDetail);
+
+                    Query query = mClient.getTable(FarmerCrop.class).where().field("FarmerPhoneNbr").eq(farmerCrop.FarmerPhoneNbr);
+                    final MobileServiceList<FarmerCrop> resultFarmerCrop = tableFarmerCrop.read(query).get();
+
+                    //final MobileServiceList<FarmerCrop> resultFarmerCrop = tableFarmerCrop.where().field("FarmerPhoneNbr").eq(farmerCrop.FarmerPhoneNbr).execute().get();
+
+                    cropDetail.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pd.dismiss();
+                            Cache.FarmerCropsCache.clear();
+                            for (int i = 0; i < resultFarmerCrop.toArray().length; i++) {
+                                Cache.FarmerCropsCache.add((FarmerCrop) resultFarmerCrop.toArray()[i]);
+                            }
+                            Cache.FarmerCropUIArrayListCache.clear();
+                            for (FarmerCrop farmerCrop : Cache.FarmerCropsCache) {
+                                FarmerCropUI farmerCropUI = new FarmerCropUI();
+                                farmerCropUI.id = farmerCrop.id;
+                                farmerCropUI.Crop_Id = farmerCrop.Crop_Id;
+                                for (CropRegional cropRegional : Cache.CropRegionalCache) {
+                                    if (cropRegional.Crop_Id == farmerCropUI.Crop_Id) {
+                                        farmerCropUI.CropName = cropRegional.Value;
+                                    }
+                                }
+                                farmerCropUI.Acres = farmerCrop.Acres;
+                                farmerCropUI.CropDate = farmerCrop.CropDate;
+                                farmerCropUI.FarmerPhoneNbr = farmerCrop.FarmerPhoneNbr;
+                                farmerCropUI.EstimateExpense = farmerCrop.EstimateInvestment;
+                                farmerCropUI.EstimateYieldAmount = farmerCrop.EstimateYieldAmount;
+                                farmerCropUI.EstimateYieldDate = farmerCrop.EstimateYieldDate;
+                                farmerCropUI.IsYieldDone = farmerCrop.IsYieldDone;
+                                Cache.FarmerCropUIArrayListCache.add(farmerCropUI);
+                                Collections.sort(Cache.FarmerCropUIArrayListCache, new Comparator<FarmerCropUI>() {
+                                    @Override
+                                    public int compare(FarmerCropUI lhs, FarmerCropUI rhs) {
+
+                                        return lhs.CropDate.compareTo(rhs.CropDate);
+                                    }
+                                });
+                            }
+
+                            pd.dismiss();
+                            cropDetail.finish();
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                    cropDetail.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            pd.dismiss();
                         }
                     });
                 }
@@ -667,7 +748,7 @@ public final class MobileServiceDataLayer
     public static void GetCropInvestments(final Context context)
     {
         final String farmerCropId = ((CropDetail)context).farmerCropId;
-        ((CropDetail)context).CropDetailProgressBar.setVisibility(View.VISIBLE);
+        final ProgressDialog pd = ProgressDialog.show(context,"Loading", "Loading...");
         new AsyncTask<Void, Void, Void>()
         {
 
@@ -703,7 +784,7 @@ public final class MobileServiceDataLayer
                             }
                             ((CropDetail) context). TotalAmountTextView.setText(MainActivity.currencyFormatter.format(totalAmount));
                             ((CropDetail) context).DrawNetIncomeGraph();
-                            ((CropDetail) context).CropDetailProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -714,7 +795,7 @@ public final class MobileServiceDataLayer
                         @Override
                         public void run() {
 
-                            ((CropDetail) context).CropDetailProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -728,7 +809,7 @@ public final class MobileServiceDataLayer
     public static void InsertInvestment(final Investment investment, final Context context)
     {
         final String farmerCropId = ((InvestmentsDetail)context).farmerCropId;
-        ((InvestmentsDetail)context).investmentsProgressBar.setVisibility(View.VISIBLE);
+        final ProgressDialog pd = ProgressDialog.show(context,"Loading", "Loading...");
         new AsyncTask<Void, Void, Void>()
         {
 
@@ -773,7 +854,7 @@ public final class MobileServiceDataLayer
                             {
                                 ((InvestmentsDetail) context).investmentListView.setAdapter(new InvestmentsItemAdapter(context, android.R.layout.simple_list_item_1, Cache.InvestmentsCache));
                             }
-                            ((InvestmentsDetail) context).investmentsProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -784,7 +865,7 @@ public final class MobileServiceDataLayer
                         @Override
                         public void run() {
 
-                            ((InvestmentsDetail)context).investmentsProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -797,7 +878,7 @@ public final class MobileServiceDataLayer
     public static void UpdateInvestment(final Investment investment, final Context context)
     {
         final String farmerCropId = ((InvestmentsDetail)context).farmerCropId;
-        ((InvestmentsDetail) context).investmentsProgressBar.setVisibility(View.VISIBLE);
+        final ProgressDialog pd = ProgressDialog.show(context,"Loading", "Loading...");
         new AsyncTask<Void, Void, Void>()
         {
 
@@ -841,7 +922,7 @@ public final class MobileServiceDataLayer
                             }
 
                             ((InvestmentsDetail) context).totalAmounttextView.setText(MainActivity.currencyFormatter.format(totalAmount));
-                            ((InvestmentsDetail) context).investmentsProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -852,7 +933,7 @@ public final class MobileServiceDataLayer
                         @Override
                         public void run() {
 
-                            ((InvestmentsDetail) context).investmentsProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -865,7 +946,7 @@ public final class MobileServiceDataLayer
     public static void DeleteInvestment(final Investment investment, final Context context)
     {
         final String farmerCropId = ((InvestmentsDetail)context).farmerCropId;
-        ((InvestmentsDetail)context).investmentsProgressBar.setVisibility(View.VISIBLE);
+        final ProgressDialog pd = ProgressDialog.show(context,"Loading", "Loading...");
         new AsyncTask<Void, Void, Void>()
         {
 
@@ -911,7 +992,7 @@ public final class MobileServiceDataLayer
                             {
                                 ((InvestmentsDetail) context).investmentListView.setAdapter(new InvestmentsItemAdapter(context, android.R.layout.simple_list_item_1, Cache.InvestmentsCache));
                             }
-                            ((InvestmentsDetail) context).investmentsProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }
@@ -922,7 +1003,7 @@ public final class MobileServiceDataLayer
                         @Override
                         public void run() {
 
-                            ((InvestmentsDetail)context).investmentsProgressBar.setVisibility(View.GONE);
+                            pd.dismiss();
                         }
                     });
                 }

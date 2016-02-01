@@ -267,11 +267,5 @@
         android:cropToPadding="false"
         android:onClick="onDoneClick" />
 
-    <ProgressBar
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/addCropProgres"
-        android:layout_centerInParent="true" />
-
 </RelativeLayout>
 </ScrollView>
