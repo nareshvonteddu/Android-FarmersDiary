@@ -252,7 +252,18 @@ public class Actuals extends Activity {
     {
         if(farmerCrop.ActualYieldAmount != 0)
         {
-            ActualYieldAmountEditText.setText(String.valueOf(farmerCrop.ActualYieldAmount));
+            switch (farmerCrop.ActualYieldUnitIndex)
+            {
+                case 0:
+                    ActualYieldAmountEditText.setText(String.valueOf(farmerCrop.ActualYieldAmount));
+                    break;
+                case 1:
+                    ActualYieldAmountEditText.setText(String.valueOf(farmerCrop.ActualYieldAmount/100));
+                    break;
+                case 2:
+                    ActualYieldAmountEditText.setText(String.valueOf(farmerCrop.ActualYieldAmount/1000));
+                    break;
+            }
         }
         if(farmerCrop.ActualPrice != 0)
         {
