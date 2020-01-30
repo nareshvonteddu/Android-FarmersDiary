@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="vnr.farmersdiary"
-    android:versionCode="6"
-    android:versionName="1.1">
+          package="vnr.farmersdiary"
+          android:versionCode="11"
+          android:versionName="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.android.com/apk/res/android ">
 
     <!--<compatible-screens>
         &lt;!&ndash; all small size screens &ndash;&gt;
@@ -22,60 +23,61 @@
         <screen android:screenSize="large" android:screenDensity="xhdpi" />
     </compatible-screens>-->
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
-        android:allowBackup="true"
-        android:icon="@drawable/appicon"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+            android:allowBackup="true"
+            android:icon="@drawable/appicon"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+                android:name=".MainActivity"
+                android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="loginscreen" >
+                android:name=".LoginActivity"
+                android:label="loginscreen">
         </activity>
         <activity
-            android:name=".farmerCrops"
-            android:label="@string/title_activity_farmer_crops" >
+                android:name=".farmerCrops"
+                android:label="@string/title_activity_farmer_crops">
         </activity>
         <activity
-            android:name=".AddCrop"
-            android:label="@string/title_activity_add_crop" >
+                android:name=".AddCrop"
+                android:label="@string/title_activity_add_crop">
         </activity>
         <activity
-            android:name=".CropDetail"
-            android:label="@string/title_activity_crop_detail" >
+                android:name=".CropDetail"
+                android:label="@string/title_activity_crop_detail">
         </activity>
         <activity
-            android:name=".InvestmentsDetail"
-            android:label="@string/title_activity_investments" >
+                android:name=".InvestmentsDetail"
+                android:label="@string/title_activity_investments">
         </activity>
         <activity
-            android:name=".AddEditInvestment"
-            android:label="@string/title_activity_add_edit_investment" >
+                android:name=".AddEditInvestment"
+                android:label="@string/title_activity_add_edit_investment">
         </activity>
-        <activity android:name=".Actuals" >
+        <activity android:name=".Actuals">
         </activity>
         <service
-            android:name=".FetchAddressIntentService"
-            android:exported="false"/>
+                android:name=".FetchAddressIntentService"
+                android:exported="false"/>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version"/>
     </application>
 
 </manifest>

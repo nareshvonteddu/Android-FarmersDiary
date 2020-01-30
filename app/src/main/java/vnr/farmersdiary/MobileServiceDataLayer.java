@@ -1,5 +1,6 @@
 package vnr.farmersdiary;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -88,7 +89,9 @@ public final class MobileServiceDataLayer
         catch (MalformedURLException e)
         {
             e.printStackTrace();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Throwable t = e;
             while (t.getCause() != null) {
                 t = t.getCause();
@@ -196,6 +199,7 @@ public final class MobileServiceDataLayer
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public static void syncDBChanges(final Context context)
     {
         if (isNetworkAvailable(context))
